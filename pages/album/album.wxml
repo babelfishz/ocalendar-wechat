@@ -1,0 +1,32 @@
+<!--pages/album/album.wxml-->
+<view class="page">
+    <view class="page__hd">
+        <text class="page__title">Album</text>
+        <text class="page__desc">美好的时光。</text>
+    </view>
+    <view class="section section_gap">
+        <view class="image-list" wx:for="{{imageUrlList}}" wx:key="url">
+          <view class="image-image" bindlongpress="bindLongPress" data-index="{{index}}">
+              <image src= "{{item.url}}"  mode="widthFix"/>
+          </view>
+          <text class="page__desc">{{item.name}}</text>
+          <text class="page__desc">{{item.dateTimeDigitized}}</text>
+        </view>
+
+
+        <!--<view class="swiperContainer">    
+            <swiper bindchange="swiperChange" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">        
+                <block wx:for="{{imageUrlList}}" wx:key="url">
+                  <swiper-item>  <image src="{{item.url}}"        class="slide-image" mode="widthFix"/>            
+                  </swiper-item>        
+                </block>    
+            </swiper>
+               
+    <view class="imageCount">{{current+1}}/{{imageUrlList.length}}     
+        </view> -->
+
+    </view>
+    
+</view>
+
+

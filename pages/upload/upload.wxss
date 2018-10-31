@@ -1,0 +1,4 @@
+/* pages/upload/upload.wxss */
+.hide{
+    display:none
+}
