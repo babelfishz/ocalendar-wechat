@@ -83,8 +83,8 @@ Page({
             'name': name
           },
           success: function (res) {
-            var data = res.data;
-            console.log(res);
+            //var data = res.data;
+            //console.log(res);
             that.setData({ showUploadStatus: true });
           },
           fail: function (res) {

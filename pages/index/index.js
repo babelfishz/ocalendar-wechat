@@ -9,6 +9,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
+
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
@@ -21,8 +22,6 @@ Page({
       count: 1,
       sizeType: ['original'],
       success: function (res) {
-        //var tempFilePaths = res.tempFilePaths
-        //console.log(tempFilePaths);
         var imagePath = encodeURIComponent(res.tempFilePaths);
         wx.navigateTo({
           url: "../upload/upload?srcPath="+imagePath
@@ -71,6 +70,7 @@ Page({
       })
     }
   },
+  
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
