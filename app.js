@@ -35,7 +35,8 @@ App({
   },
   globalData: {
     userInfo: null,
-    serverAddress: "47.74.251.157",
-    serverUrl: 'http://47.74.251.157/photo'
+    backendUrl: "http://www.ocalendar.com.cn/",
+    photoPath: 'photo',
+    orchidPath:'orchid',
   }
 })

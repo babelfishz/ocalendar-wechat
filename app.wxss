@@ -81,7 +81,6 @@ page {
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  width: 100%;
   border: 1px solid #eee;
 }
 .page-body-form-item {
@@ -196,10 +195,21 @@ checkbox, radio{
 .page__hd{
     padding: 40px;
 }
+
+.page__hd_small{
+    padding: 15px;
+}
+
 .page__title{
     display: block;
     font-size: 20px;
 }
+
+.page__title_2{
+    display: block;
+    font-size: 14px;
+}
+
 .page__desc{
     margin-top: 5px;
     font-size: 14px;

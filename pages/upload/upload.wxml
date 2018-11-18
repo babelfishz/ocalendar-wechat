@@ -1,26 +1,30 @@
 <!--pages/upload/upload.wxml-->
 <view class="page">
-  <view class="page__hd">
+  <view class="page__hd_small">
         <text class="page__title">上传</text>
         <text class="page__desc">记录到某个地方。</text>
   </view>
   <view class="page__bd">
         <form class="page__bd" catchsubmit="formSubmit">
           <view class="section section_gap">
-            <view class="section__ctn">
-                <image src= "{{uploadImagePath}}" mode= "aspectFit"/>
-            </view>
+              <block wx:for="{{uploadImagePaths}}" wx:key="*this">
+              <image style="width: 100px; height: 100px; padding:0 1px" src= "{{item}}" mode="aspectFill"/>
+              </block>
           </view>
-          <view class="section">
+          <view class="{{showInputName?'':'hide'}}">
             <view class="section__title">名字</view>
             <input name="input" placeholder="请在这里输入" />
           </view>
           <view class="btn-area">
             <view class="{{showUploadStatus?'hide':''}}">
-            <button type= "primary" formType="submit">上传</button>
+            <button type= "primary" loading="{{loading}}" formType="submit">上传</button>
             </view>
-            <view class="{{showUploadStatus?'':'hide'}}">
+            <view class="{{(showUploadStatus && success)?'':'hide'}}">
             <text class="page__desc">记录成功了。</text>
+            </view>
+            <view class="{{(showUploadStatus && !success)?'':'hide'}}">
+            <text class="page__desc">记录失败了，请重新选择上传。</text>
+            <!--button type= "primary" loading="{{loading}}" formType="submit">重试</button>-->
             </view>
           </view>
         </form>

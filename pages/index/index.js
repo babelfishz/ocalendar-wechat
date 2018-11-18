@@ -19,10 +19,10 @@ Page({
 
   bindUploadTap:function(){
     wx.chooseImage({
-      count: 1,
+      count: 9,
       sizeType: ['original'],
       success: function (res) {
-        var imagePath = encodeURIComponent(res.tempFilePaths);
+        var imagePath = JSON.stringify(res.tempFilePaths);
         wx.navigateTo({
           url: "../upload/upload?srcPath="+imagePath
          })

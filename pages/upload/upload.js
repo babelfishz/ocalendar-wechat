@@ -5,9 +5,98 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uploadImagePath : '../../image/view.png',
+    uploadImagePaths : [],
+    showInputName:false,
     inputValue: '',
+    loading: false,
+    isUploadError: false,
     showUploadStatus: false,
+    success: true,
+  },
+
+  formSubmit: function (e) {
+    var that = this;
+    var tempFilePaths = that.data.uploadImagePaths;
+    this.setData({ loading: !this.data.loading });
+    if(tempFilePaths.length == 1){
+      var inputName = e.detail.value.input;
+      that.uploadSingleFile(tempFilePaths[0], inputName);
+    }else{
+      var successCount = 0;
+      var failCount = 0;
+      var i = 0;
+      var length = tempFilePaths.length;
+      that.uploadMultiFile(tempFilePaths, successCount,failCount,i,length);
+    }
+  },
+
+  uploadSingleFile:function(filePath, name){
+    var that = this;
+    var app = getApp();
+    var url = app.globalData.backendUrl + app.globalData.photoPath;
+    //console.log(url);
+    
+    wx.uploadFile({
+      url: url,
+      filePath: filePath,
+      name: 'file',
+      formData: {
+        'name': name
+      },
+      success: function (res) {
+        var data = res.data;
+        console.log(res);
+        that.setData({ showUploadStatus: true });
+        that.setData({ success: true });
+      },
+      fail: function (res) {
+        that.setData({ showUploadStatus: true });
+        that.setData({ success: false });
+        that.setData({ loading: false });
+        console.log(res);
+      }
+    })
+  },
+
+  uploadMultiFile:function(filePaths, successCount, failCount, i, length) {
+    
+      var that = this;
+      var app = getApp();
+      var url = app.globalData.backendUrl + app.globalData.photoPath;
+     
+      wx.uploadFile({
+        url: url,
+        filePath: filePaths[i],
+        name: 'file',
+        formData: {
+          'name': ''
+        },
+
+        success: function(res){
+          successCount++;
+        },
+
+        fail: function(res) {
+          that.setData({isUploadError:true});
+          failCount++;
+        },
+
+        complete: function() {
+          i++;
+          if (i == length) {
+            that.setData({ showUploadStatus: true });
+            that.setData({ success: true });
+          } else {  //递归调用uploadMultiFile函数
+            if (that.data.isUploadError) {
+              that.setData({ showUploadStatus: true });
+              that.setData({ success: false });
+              that.setData({ loading: false });
+            } else {
+              that.uploadMultiFile(filePaths, successCount, failCount, i, length);
+            }
+          }
+        }
+      });
   },
 
   /**
@@ -15,7 +104,12 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    that.setData({uploadImagePath:decodeURIComponent(options.srcPath)})
+    var uploadFiles = JSON.parse(options.srcPath);
+    that.setData({uploadImagePaths:uploadFiles});
+    if(uploadFiles.length == 1)
+    { 
+      that.setData({showInputName:true});
+    }
   },
 
   /**
@@ -66,30 +160,5 @@ Page({
   onShareAppMessage: function () {
 
   },
-
-  formSubmit: function (e) {
-    var that = this;
-    var tempFilePaths = that.data.uploadImagePath;
-    var name = e.detail.value.input;
-    console.log(tempFilePaths);
-    console.log(name);
-    
-
-       wx.uploadFile({
-          url: 'http://47.74.251.157/photo', 
-          filePath: tempFilePaths,
-          name: 'file',
-          formData: {
-            'name': name
-          },
-          success: function (res) {
-            //var data = res.data;
-            //console.log(res);
-            that.setData({ showUploadStatus: true });
-          },
-          fail: function (res) {
-            console.log(res);
-          }
-        })
-  },
+  
 })

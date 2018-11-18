@@ -5,20 +5,6 @@
 
 .swiperContainer{position: relative;}
 
-.imageCount{    
-  width: 80rpx;   
-  height: 80rpx;    
-  background-color: #c5c5cc;    
-  border-radius: 50%;    
-  line-height: 78rpx;    
-  color: #ffffff;    
-  text-align: center;    
-  font-size: 26rpx;    
-  position: absolute;    
-  right: 26rpx;    
-  bottom:20rpx;
-}
-
 .images-image {
   width: 150rpx;
   height: 150rpx;
