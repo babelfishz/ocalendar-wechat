@@ -1,0 +1,4 @@
+/* pages/picture/picture.wxss */
+.hide{
+    display:none
+}

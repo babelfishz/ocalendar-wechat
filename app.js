@@ -1,6 +1,31 @@
 //app.js
 App({
+
   onLaunch: function () {
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.request({
+          //后台接口地址 
+          url: 'http://www.ocalendar.com.cn/api/wechat/getcode',
+          data: {
+            code: res.code, // code 必须给 
+            //encryptedData: res_user.encryptedData, //密文串 必须给 
+            //iv: res_user.iv //加密初始量 必给 
+          },
+          method: 'GET',
+          header: { 'content-type': 'application/json' },
+          success: function (res) {
+            //console.log('userId:', res.data);
+            wx.setStorageSync('userId', res.data);
+          }
+        })
+      }
+    })  
+  },
+
+  /*onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -32,11 +57,12 @@ App({
         }
       }
     })
-  },
+  },*/
+
   globalData: {
     userInfo: null,
     backendUrl: "http://www.ocalendar.com.cn/",
-    photoPath: 'photo',
-    orchidPath:'orchid',
+    photoPath: 'api/photo',
+    orchidPath:'api/orchid',
   }
 })

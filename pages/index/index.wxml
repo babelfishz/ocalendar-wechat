@@ -1,29 +1,9 @@
 <!--index.wxml-->
 
-<!--
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-
-   <view class="btn">
-  <image bindtap="binduploadtap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-  <text class="upload">{{'upload'}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-</view>
--->
-
 <view class="index">
-    <view class="head">
-        <view class="title">兰花日历</view>
-        <view class="desc">这是一个关于寻找的故事。</view>
+    <view class="head" bindtap="bindLoginTap">
+        <view class="title">我的兰花日历</view>
+        <view class="desc">行到水穷处，坐看云起时。</view>
     </view>
 
     <view class="body">
@@ -40,11 +20,26 @@
             </view>
         </view>
         <view class="widgets__item">
+            <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" >
+                    <text class="widgets__info-name">目标</text>
+                    <image class="widgets__info-img" src="../../image/target.png" background-size="cover" />
+            </view>
+        </view>
+        <view class="widgets__item">
             <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindCalendarTap">
                     <text class="widgets__info-name">追寻</text>
                     <image class="widgets__info-img" src="../../image/explore.png" background-size="cover" />
             </view>
         </view>
     </view>
+
+    <!--view class="userinfo">
+        <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+        <block wx:else>
+          <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>-->
+
 </view>
 

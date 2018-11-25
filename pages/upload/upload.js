@@ -34,14 +34,17 @@ Page({
     var that = this;
     var app = getApp();
     var url = app.globalData.backendUrl + app.globalData.photoPath;
-    //console.log(url);
+    var userId = wx.getStorageSync('userId');
+    
+    //console.log('upload userId:', userId);
     
     wx.uploadFile({
       url: url,
       filePath: filePath,
       name: 'file',
       formData: {
-        'name': name
+        'name': name,
+        'userId': userId
       },
       success: function (res) {
         var data = res.data;
@@ -63,13 +66,15 @@ Page({
       var that = this;
       var app = getApp();
       var url = app.globalData.backendUrl + app.globalData.photoPath;
+      var userId = wx.getStorageSync('userId');
      
       wx.uploadFile({
         url: url,
         filePath: filePaths[i],
         name: 'file',
         formData: {
-          'name': ''
+          'name': '',
+          'userId': userId
         },
 
         success: function(res){

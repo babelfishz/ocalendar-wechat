@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    species_coun: '',
+    species_count: '',
     photo_count: '',
     sysW: '',
   
@@ -33,12 +33,19 @@ bindLongPress: function(e) {
           //console.log('点击确定了');
           var app = getApp();
           var url = app.globalData.backendUrl + app.globalData.photoPath + "/"+ id;
+          var userId = wx.getStorageSync('userId');
           wx.request({
             url: url,
             method: 'DELETE',
+            data: {
+              'userId': userId
+            },
             success: function(res){
+              console.log('in delete photo:',res.data);
               flora_by_month[index].flora.splice(current, 1);
-              that.setData({flora_by_month:flora_by_month,
+              var species = res.data.species;
+              that.setData({
+                flora_by_month: flora_by_month, species_count:species,
                 photo_count: that.data.photo_count - 1});
               //that.setData({photo_count:that.data.photo_count-1});
               },
@@ -69,8 +76,14 @@ bindLongPress: function(e) {
     var current_page = this.data.page;
     var app =getApp();
     var url = app.globalData.backendUrl + app.globalData.photoPath + '/?page=' + current_page;
+    var userId = wx.getStorageSync('userId');
+    //console.log(userId);
+
     wx.request({
       url: url,
+      data: {
+        'userId': userId
+      },
       success: function (res) {
 
         const flora = res.data.floras.data;
@@ -108,8 +121,13 @@ bindLongPress: function(e) {
 
         while (flora[i]) {
           //var date0 = new Date(flora[i].dateTimeDigitized);
+          //console.log('flora[i]',flora[i],i);
           var date0 = flora[i].dateTimeDigitized;
-          var date1 = date0.toString().replace(/-/g, "/");
+          if(date0){
+              var date1 = date0.toString().replace(/-/g, "/");
+          }else{
+              var date1 = date0;
+          }
           var date = new Date(date1);
           
           var month = date.getMonth();
@@ -240,7 +258,7 @@ bindLongPress: function(e) {
       that.getFloraData();
     } else {
       wx.showToast({
-        title: '没有更多照片了',
+        title: '行到水穷处',
       })
     };
   },

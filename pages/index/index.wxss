@@ -1,9 +1,10 @@
 /**index.wxss**/
-/*
+
 .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 40rpx;
 }
 
 .userinfo-avatar {
@@ -20,7 +21,6 @@
 .usermotto {
   margin-top: 100px;
 }
-*/
 
 .index{
     background-color: #FBF9FE;

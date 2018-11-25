@@ -7,7 +7,7 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
 
   //事件处理函数
@@ -42,7 +42,17 @@ Page({
     })
   },
 
+  bindLoginTap: function () {
+    /*wx.navigateTo({
+      url: './login'
+    })*/
+  },
+  
   onLoad: function () {
+  },
+
+  /*onLoad: function () {
+      
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -69,14 +79,18 @@ Page({
         }
       })
     }
-  },
+    //console.log(app.globalData.userInfo);
+    var userId = wx.getStorageSync('userId');
+    var that = this;
+    that.setData({userId:userId});
+  },*/
   
-  getUserInfo: function(e) {
+  /*getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  }
+  }*/
 })
