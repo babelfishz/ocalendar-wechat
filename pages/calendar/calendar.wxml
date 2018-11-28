@@ -11,6 +11,6 @@
 
 <view class="box1" style='width: {{ sysW * 7 }}px'> 
   <block wx:for="{{urls}}" wx:key="*this">
-              <image style="width: {{ sysW*2 }}px; height: {{ sysW*2}}px; padding:0  1px " src= "{{item}}" mode="aspectFill"/>
+              <image style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px; padding:0  1px " src= "{{item}}" mode="aspectFill"/>
   </block>
 </view>

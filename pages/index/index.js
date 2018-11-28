@@ -18,7 +18,10 @@ Page({
   },
 
   bindUploadTap:function(){
-    wx.chooseImage({
+    wx.navigateTo({
+      url: '../upload/upload'
+    })
+    /*wx.chooseImage({
       count: 9,
       sizeType: ['original'],
       success: function (res) {
@@ -27,7 +30,7 @@ Page({
           url: "../upload/upload?srcPath="+imagePath
          })
       }
-    })
+    })*/
   },
 
   bindAlbumTap: function () {

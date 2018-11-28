@@ -258,7 +258,8 @@ bindLongPress: function(e) {
       that.getFloraData();
     } else {
       wx.showToast({
-        title: '行到水穷处',
+        title: '没有更多照片了',
+        icon: 'none'
       })
     };
   },

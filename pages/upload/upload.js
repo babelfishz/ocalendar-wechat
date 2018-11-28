@@ -5,28 +5,111 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uploadImagePaths : [],
-    showInputName:false,
-    inputValue: '',
+    //uploadImagePaths : [],
+    imgArr: [],
+    chooseViewShow: true,
     loading: false,
+    showInputName: false,
+    inputValue: '',
     isUploadError: false,
     showUploadStatus: false,
     success: true,
+    sysW:'',
+  },
+
+  chooseImage: function () {
+
+    var that = this;
+    wx.chooseImage({
+      count: 9 - that.data.imgArr.length,
+      sizeType: ['original'],
+      sourceType: ['album', 'camera'], 
+
+      success: function (res) {
+
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        //console.log(res.tempFilePaths);
+        if (res.tempFilePaths.count == 0) {
+          return;
+        }
+
+        var imgArrNow = that.data.imgArr;
+        imgArrNow = imgArrNow.concat(res.tempFilePaths);
+        //console.log(imgArrNow);
+
+        var showInputName = false;
+        if(imgArrNow.length == 1) {showInputName = true};
+
+        that.setData({
+          imgArr: imgArrNow,
+          showInputName: showInputName,
+        })
+        that.chooseViewShow();
+      }
+    })
+  },
+
+
+  /** 删除图片 */
+  deleteImv: function (e) {
+
+    var imgArr = this.data.imgArr;
+    var itemIndex = e.currentTarget.dataset.id;
+    imgArr.splice(itemIndex, 1);
+
+    //console.log(imgArr);
+
+    var showInputName = false;
+    if (imgArr.length == 1) { showInputName = true };
+
+    this.setData({
+      imgArr: imgArr,
+      showInputName:showInputName
+    })
+
+    //判断是否隐藏选择图片
+    this.chooseViewShow();
+  },
+
+  /** 是否隐藏图片选择 */
+  chooseViewShow: function () {
+    if (this.data.imgArr.length >= 9) {
+      this.setData({
+        chooseViewShow: false
+      })
+    } else {
+      this.setData({
+        chooseViewShow: true
+      })
+    }
+  },
+
+  /** 显示图片 */
+
+  showImage: function (e) {
+    var imgArr = this.data.imgArr;
+    var itemIndex = e.currentTarget.dataset.id;
+
+    wx.previewImage({
+      current: imgArr[itemIndex], // 当前显示图片的http链接
+      urls: imgArr // 需要预览的图片http链接列表
+    })
   },
 
   formSubmit: function (e) {
     var that = this;
-    var tempFilePaths = that.data.uploadImagePaths;
+    var imgArr = that.data.imgArr;
     this.setData({ loading: !this.data.loading });
-    if(tempFilePaths.length == 1){
+   
+    if(imgArr.length == 1){
       var inputName = e.detail.value.input;
-      that.uploadSingleFile(tempFilePaths[0], inputName);
+      that.uploadSingleFile(imgArr[0], inputName);
     }else{
       var successCount = 0;
       var failCount = 0;
       var i = 0;
-      var length = tempFilePaths.length;
-      that.uploadMultiFile(tempFilePaths, successCount,failCount,i,length);
+      var length = imgArr.length;
+      that.uploadMultiFile(imgArr, successCount,failCount,i,length);
     }
   },
 
@@ -108,13 +191,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
+    /*var that = this;
+    var sysInfo = wx.getSystemInfoSync();
+    that.setData({ sysW: sysInfo.windowWidth });
+
     var uploadFiles = JSON.parse(options.srcPath);
     that.setData({uploadImagePaths:uploadFiles});
     if(uploadFiles.length == 1)
     { 
       that.setData({showInputName:true});
-    }
+    }*/
   },
 
   /**

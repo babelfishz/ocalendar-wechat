@@ -6,15 +6,32 @@
   </view>
   <view class="page__bd">
         <form class="page__bd" catchsubmit="formSubmit">
-          <view class="section section_gap">
+          <!--view class="btn-area">
               <block wx:for="{{uploadImagePaths}}" wx:key="*this">
-              <image style="width: 100px; height: 100px; padding:0 1px" src= "{{item}}" mode="aspectFill"/>
+              <image style="width: {{(sysW-30)/3-2}}px; height: {{(sysW-30)/3-2}}px; padding:0 1px" src= "{{item}}" mode="aspectFill"/>
               </block>
           </view>
-          <view class="{{showInputName?'':'hide'}}">
-            <view class="section__title">名字</view>
-            <input name="input" placeholder="请在这里输入" />
+          -->
+          <view class="addImv">
+            <!--这个是已经选好的图片-->
+            <block wx:for="{{imgArr}}" wx:key="key">
+              <view class="upFile" bindtap="showImage" style="border-radius: 5px" data-id="{{index}}">
+                <image class="itemImv" src="{{item}}" mode="aspectFill"></image>
+                <image class="closeImv" src="../../image/delete.png" mode="aspectFill" catchtap="deleteImv"  data-id="{{index}}"></image>
+              </view>
+            </block>
+            
+          <!--这个是选择图片-->
+            <view class="chooseView" bindtap="chooseImage" style="border-radius: 5px" wx:if="{{chooseViewShow}}">
+              <image class="chooseImv" src="../../image/addImage.png"></image>
+            </view>
           </view>
+          
+          <view class="{{showInputName?'':'hide'}}">
+              <view class="section__title">名字</view>
+              <input name="input" placeholder="请在这里输入" />
+          </view>
+
           <view class="btn-area">
             <view class="{{showUploadStatus?'hide':''}}">
             <button type= "primary" loading="{{loading}}" formType="submit">上传</button>

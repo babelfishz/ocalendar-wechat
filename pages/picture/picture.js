@@ -104,6 +104,42 @@ Page({
     });
   },
 
+  savePhoto:function(e)
+  {
+    var that=this;
+
+    wx.showModal({
+      title: '提示',
+      content: '确定要保存这张照片吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          wx.getImageInfo({
+            src: that.data.flora.url,
+            success: function (res) {
+              console.log(res);
+              var path = res.path;
+              wx.saveImageToPhotosAlbum({
+                filePath: path,
+                success: function (res) {
+                  wx.showToast({
+                    title: '保存成功',
+                    icon: 'none'
+                  })
+                },
+                fail: function (res) {
+                  console.log('保存失败');
+                }
+              })
+            }
+          });
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

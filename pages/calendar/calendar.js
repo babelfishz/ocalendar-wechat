@@ -17,7 +17,8 @@ Page({
     weekArr: ['日', '一', '二', '三', '四', '五', '六'],
     year: null,
     currentDate:'',
-    floraOfMonth: [],
+    capturedList: [],
+    bucketList:[],
     urls: [],
   },
 
