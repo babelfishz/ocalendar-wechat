@@ -8,6 +8,7 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    currentAlbumName:''
   },
 
   //事件处理函数
@@ -18,9 +19,11 @@ Page({
   },
 
   bindUploadTap:function(){
-    wx.navigateTo({
+    if(getApp().globalData.readWrite){
+      wx.navigateTo({
       url: '../upload/upload'
     })
+    }
     /*wx.chooseImage({
       count: 9,
       sizeType: ['original'],
@@ -34,24 +37,47 @@ Page({
   },
 
   bindAlbumTap: function () {
+    if(getApp().globalData.myUserInfo){
     wx.navigateTo({
       url: '../album/album'
     })
+    }
   },
 
   bindCalendarTap: function () {
+    if (getApp().globalData.myUserInfo) {
     wx.navigateTo({
       url: '../calendar/calendar'
     })
+    }
   },
 
+  bindPeoplesTap: function () {
+    wx.navigateTo({
+      url: '../target/peoples'
+    })
+  },
+
+
   bindLoginTap: function () {
-    /*wx.navigateTo({
+    if (getApp().globalData.myUserInfo) {
+    wx.navigateTo({
       url: './login'
-    })*/
+    })
+    }
   },
   
   onLoad: function () {
+    var that = this;
+    
+    if(getApp().globalData.myUserInfo.userId == getApp().globalData.currentUserInfo.userId){
+      that.setData({currentAlbumName:'我'});
+      //console.log(that.data);
+    }else{
+      that.setData({currentAlbumName:getApp().globalData.currentUserInfo.nickName});
+    }
+
+    //console.log('---------',getApp().globalData);
   },
 
   /*onLoad: function () {

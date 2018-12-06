@@ -3,12 +3,19 @@ App({
 
   onLaunch: function () {
     // 登录
+     var that = this;
+     that.getMyUserId();
+  },
+
+  getMyUserId: function(){
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        var app = getApp();
+        var url = app.globalData.backendUrl + 'api/getcode';
         wx.request({
           //后台接口地址 
-          url: 'http://www.ocalendar.com.cn/api/wechat/getcode',
+          url: url,
           data: {
             code: res.code, // code 必须给 
             //encryptedData: res_user.encryptedData, //密文串 必须给 
@@ -18,12 +25,44 @@ App({
           header: { 'content-type': 'application/json' },
           success: function (res) {
             //console.log('userId:', res.data);
-            wx.setStorageSync('userId', res.data);
+            //wx.setStorageSync('userId', res.data);
+            var userInfo = { userId: '', nickName: '', avatarUrl: '', city: '', province: '' };
+            userInfo.userId = res.data;
+            getApp().globalData.myUserInfo = userInfo;
+            getApp().globalData.currentUserInfo = userInfo;
+            
+            //getApp().getAllUserInfo();
+            //console.log(getApp().globalData);
+          },
+          fail: function (res) {
+            console.log(res);
           }
         })
       }
-    })  
+    }) 
   },
+
+ /* getAllUserInfo: function () {
+    var app = getApp();
+    var url = app.globalData.backendUrl + app.globalData.userInfoPath;
+    var userId = app.globalData.myUserInfo.userId;
+
+    //console.log(userId);
+
+    var that = this;
+    wx.request({
+      url: url,
+      data: {
+        'userId': userId,
+      },
+      success: function (res) {
+        that.globalData.allUserInfo = res.data;
+        console.log(that.globalData.allUserInfo);
+      },
+    })
+  },*/
+
+  
 
   /*onLaunch: function () {
     // 展示本地存储能力
@@ -60,9 +99,14 @@ App({
   },*/
 
   globalData: {
-    userInfo: null,
     backendUrl: "http://www.ocalendar.com.cn/",
     photoPath: 'api/photo',
     orchidPath:'api/orchid',
+    userInfoPath:'api/users',
+
+    allUserInfo: [],
+    myUserInfo:'',
+    currentUserInfo:'',
+    readWrite:true,
   }
 })

@@ -5,6 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    albumUserId:'',
+    albumUserName:'',
+
     species_count: '',
     photo_count: '',
     sysW: '',
@@ -18,6 +21,8 @@ Page({
 
 bindLongPress: function(e) {
     
+    if (!getApp().globalData.readWrite) return;
+
     var index = e.currentTarget.dataset.idx;
     var current = e.currentTarget.dataset.subidx;
 
@@ -41,7 +46,7 @@ bindLongPress: function(e) {
               'userId': userId
             },
             success: function(res){
-              console.log('in delete photo:',res.data);
+              //console.log('in delete photo:',res.data);
               flora_by_month[index].flora.splice(current, 1);
               var species = res.data.species;
               that.setData({
@@ -76,9 +81,9 @@ bindLongPress: function(e) {
     var current_page = this.data.page;
     var app =getApp();
     var url = app.globalData.backendUrl + app.globalData.photoPath + '/?page=' + current_page;
-    var userId = wx.getStorageSync('userId');
-    //console.log(userId);
-
+    //var myId = wx.getStorageSync('userId');
+    var userId = getApp().globalData.currentUserInfo.userId;
+   
     wx.request({
       url: url,
       data: {
@@ -165,9 +170,26 @@ bindLongPress: function(e) {
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    //console.log("album:",options);
+
     var that = this;
     var sysInfo = wx.getSystemInfoSync();
     that.setData({ sysW: sysInfo.windowWidth });
+
+    /*var albumUserId = '';
+
+    if(options.userId){
+      albumUserId = options.userId;
+    }else{
+      albumUserId = wx.getStorageSync('userId');
+    };
+    that.setData({ albumUserId: albumUserId });*/
+
+    //console.log('-------',albumUserId);
+
+    //that.getUserName();
+
     that.getFloraData();
     //console.log(that.data.flora_by_month);
   },

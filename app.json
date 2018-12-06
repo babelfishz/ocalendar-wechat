@@ -6,7 +6,8 @@
     "pages/upload/upload",
     "pages/calendar/calendar",
     "pages/picture/picture",
-    "pages/index/login"
+    "pages/index/login",
+    "pages/target/peoples"
   ],
   "window": {
     "backgroundTextStyle": "light",

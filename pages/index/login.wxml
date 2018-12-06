@@ -1,17 +1,61 @@
 <!--pages/index/login.wxml-->
-<view wx:if="{{canIUse}}">
-    <view class='header'>
-        <image src='/image/orchid.jpg'></image>
+<view class="widgets__item">
+  <view class="page__hd_small">
+        <text class="page__title">选择</text>
+        <text class="page__desc">点击图标切换到其他用户的兰花日历。</text>
+  </view>
+
+
+    <!--view class="section section_gap">
+      <view class="image-list"> 
+          <block wx:for="{{users}}" wx:for-index= 'idx'>
+              <image  src= "{{users[idx].avatarUrl}}" style="width: 50px; height:50px; padding:0 1px" mode="aspectFill" bindtap="bindChooseUserTap" data-index='{{idx}}'/>
+              <text class="page__desc">{{users[idx].nickName}}</text>
+          </block>
+      </view>
+    </view-->
+
+    <view  class='avatar_list'>      
+      <view wx:for="{{users}}" wx:for-index= 'idx'>        
+          <view class='avatar_item'>            
+              <image class='avatar' src='{{users[idx].avatarUrl}}' bindtap="bindChooseUserTap" data-index='{{idx}}'></image>            
+              <view>{{users[idx].nickName}}</view>          
+            </view>        
+        </view>  
     </view>
- 
-    <view class='content'>
-        <view>申请获取以下权限</view>
-        <text>获得你的公开信息(昵称，头像等)</text>
-    </view>
- 
-    <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindLoginTap">
-        授权登录
-    </button>
 </view>
- 
-<view wx:else>请升级微信版本</view>
+
+<view class="widgets__item">
+  <view class="page__hd_small" bindtap="bindSwitchBackTap">
+        <text class="page__title">返回</text>
+        <text class="page__desc">点击返回自己的兰花日历。</text>
+  </view>
+</view>
+
+<view class="widgets__item">
+  <view class="page__hd_small">
+        <text class="page__title">分享</text>
+        <text class="page__desc">您的日历将对其他用户可见。</text>
+  </view>
+
+  <view wx:if="{{canIUse}}">
+    <view class='content' hidden = "{{authorizationHidden}}">
+        <view>申请获取以下权限:</view>
+        <view class='page__desc'>
+          <text>获得你的公开信息(昵称，头像等)</text>
+          <text>允许朋友查看你的日历</text>
+        </view>
+        <button class='bottom' type='default' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindLoginTap">
+        分享
+        </button>
+    </view>
+
+    <view class='content' hidden = "{{resultHidden}}">
+        <button class='bottom' type='default' lang="zh_CN" bindtap='bindDeleteUserInfoTap'>
+        取消分享
+        </button>
+    </view>
+  </view>
+
+  <view wx:else>请升级微信版本</view>
+</view>

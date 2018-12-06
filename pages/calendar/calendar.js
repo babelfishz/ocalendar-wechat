@@ -67,7 +67,7 @@ Page({
     var that = this;
     var app = getApp();
     var url = app.globalData.backendUrl + app.globalData.photoPath + "/" + month;
-    var userId = wx.getStorageSync('userId');
+    var userId = app.globalData.currentUserInfo.userId;
 
     wx.request({
       url: url,
@@ -77,6 +77,7 @@ Page({
       
       success: function (res) {
         if (res.statusCode == 200) {
+          //console.log(res.data);
           var urls = [];
           var i=0;
           while(res.data[i]){

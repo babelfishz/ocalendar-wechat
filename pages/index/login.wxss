@@ -25,7 +25,54 @@
 }
  
 .bottom {
-    border-radius: 80rpx;
-    margin: 70rpx 50rpx;
+    margin: 50rpx 50rpx;
     font-size: 35rpx;
+}
+
+ .avatar_list{
+  display: flex;
+  flex-flow: row wrap;
+  text-align: center;
+  font-size: 15px;
+}
+
+
+.avatar_item{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  width: 210rpx;
+  padding: 20rpx 0;
+}
+
+
+.avatar{
+  width: 140rpx;
+  height: 140rpx;
+  margin: 0 auto;
+}
+
+
+.avatar_item>view{
+  font-size: 30rpx;
+  margin-top: 15rpx;
+}
+
+.widgets__item{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.widgets__line{
+    content: " ";
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    right: 20px;
+    height: 1rpx;
+    background-color: #DFDFDF;
 }

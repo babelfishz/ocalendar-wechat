@@ -20,6 +20,8 @@ Page({
 
   showModifyForm:function(e)
   {
+      if (!getApp().globalData.readWrite) return;
+
       var that = this;
       that.setData({showStatus:false});
       that.setData({showModifyForm:true});
