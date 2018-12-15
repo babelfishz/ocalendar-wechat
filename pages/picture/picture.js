@@ -158,8 +158,8 @@ Page({
 
       flora.id = flora_data.id;
       flora.url = app.globalData.backendUrl + "/" + flora_data.filePath + flora_data.fileName;
-      flora.name = flora_data.floraName;
-      flora.created_time = flora_data.dateTimeDigitized;
+      flora.name = flora_data.floraName ? flora_data.floraName:'';
+      flora.created_time = flora_data.dateTimeDigitized?flora_data.dateTimeDigitized:'';
 
       //console.log(flora.name);
 

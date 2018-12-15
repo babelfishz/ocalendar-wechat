@@ -26,11 +26,12 @@ App({
           success: function (res) {
             //console.log('userId:', res.data);
             //wx.setStorageSync('userId', res.data);
-            var userInfo = { userId: '', nickName: '', avatarUrl: '', city: '', province: '' };
-            userInfo.userId = res.data;
-            getApp().globalData.myUserInfo = userInfo;
-            getApp().globalData.currentUserInfo = userInfo;
-            
+            if(res.statusCode == 200){
+              var userInfo = { userId: '', nickName: '', avatarUrl: '', city: '', province: '' };
+              userInfo.userId = res.data;
+              getApp().globalData.myUserInfo = userInfo;
+              getApp().globalData.currentUserInfo = userInfo;
+            }
             //getApp().getAllUserInfo();
             //console.log(getApp().globalData);
           },
@@ -41,28 +42,6 @@ App({
       }
     }) 
   },
-
- /* getAllUserInfo: function () {
-    var app = getApp();
-    var url = app.globalData.backendUrl + app.globalData.userInfoPath;
-    var userId = app.globalData.myUserInfo.userId;
-
-    //console.log(userId);
-
-    var that = this;
-    wx.request({
-      url: url,
-      data: {
-        'userId': userId,
-      },
-      success: function (res) {
-        that.globalData.allUserInfo = res.data;
-        console.log(that.globalData.allUserInfo);
-      },
-    })
-  },*/
-
-  
 
   /*onLaunch: function () {
     // 展示本地存储能力

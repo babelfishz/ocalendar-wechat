@@ -1,17 +1,12 @@
 <!--pages/upload/upload.wxml-->
 <view class="page">
   <view class="page__hd_small">
-        <text class="page__title">上传</text>
-        <text class="page__desc">记录到某个地方。</text>
+        <text class="page__title">记录</text>
+        <text class="page__desc">上传到某个地方。</text>
   </view>
   <view class="page__bd">
         <form class="page__bd" catchsubmit="formSubmit">
-          <!--view class="btn-area">
-              <block wx:for="{{uploadImagePaths}}" wx:key="*this">
-              <image style="width: {{(sysW-30)/3-2}}px; height: {{(sysW-30)/3-2}}px; padding:0 1px" src= "{{item}}" mode="aspectFill"/>
-              </block>
-          </view>
-          -->
+        <view class="{{showChooseImageArea?'':'hide'}}">
           <view class="addImv">
             <!--这个是已经选好的图片-->
             <block wx:for="{{imgArr}}" wx:key="key">
@@ -31,6 +26,9 @@
               <view class="section__title">名字</view>
               <input name="input" placeholder="请在这里输入" />
           </view>
+
+          </view>
+
 
           <view class="btn-area">
             <view class="{{showUploadStatus?'hide':''}}">

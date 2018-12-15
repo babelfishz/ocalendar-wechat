@@ -7,6 +7,7 @@ Page({
   data: {
     //uploadImagePaths : [],
     imgArr: [],
+    showChooseImageArea:true,
     chooseViewShow: true,
     loading: false,
     showInputName: false,
@@ -132,13 +133,25 @@ Page({
       success: function (res) {
         var data = res.data;
         console.log(res);
-        that.setData({ showUploadStatus: true });
-        that.setData({ success: true });
+        if (res.statusCode == 200) {
+          that.setData({
+            showChooseImageArea:false, 
+            showUploadStatus: true, 
+            success: true});
+        }else{
+          that.setData({ 
+            showUploadStatus: true,
+            success: false,
+            loading: false,
+           });
+        }
       },
       fail: function (res) {
-        that.setData({ showUploadStatus: true });
-        that.setData({ success: false });
-        that.setData({ loading: false });
+        that.setData({
+          showUploadStatus: true,
+          success: false,
+          loading: false,
+        });
         console.log(res);
       }
     })
@@ -161,9 +174,13 @@ Page({
         },
 
         success: function(res){
-          successCount++;
+          if(res.statusCode == 200){
+            successCount++;
+          }else{
+            that.setData({ isUploadError: true });
+            failCount++;
+          }
         },
-
         fail: function(res) {
           that.setData({isUploadError:true});
           failCount++;
@@ -172,13 +189,18 @@ Page({
         complete: function() {
           i++;
           if (i == length) {
-            that.setData({ showUploadStatus: true });
-            that.setData({ success: true });
+            that.setData({
+              showChooseImageArea:false, 
+              showUploadStatus: true,
+              success: true,
+            });
           } else {  //递归调用uploadMultiFile函数
             if (that.data.isUploadError) {
-              that.setData({ showUploadStatus: true });
-              that.setData({ success: false });
-              that.setData({ loading: false });
+              that.setData({ 
+                showUploadStatus: true,
+                success: false,
+                loading: false,
+              });
             } else {
               that.uploadMultiFile(filePaths, successCount, failCount, i, length);
             }
