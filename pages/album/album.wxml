@@ -3,7 +3,7 @@
 <wxs module="url_helper_1">
 var concat = function(flora) {
   var url = undefined;
-  url = "http://"+ "www.ocalendar.com.cn" + "/" + flora.filePath + flora.thumbnailFileName;
+  url = "https://"+ "www.ocalendar.com.cn" + "/" + flora.filePath + flora.thumbnailFileName;
   return url;
 }
 

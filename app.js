@@ -78,7 +78,7 @@ App({
   },*/
 
   globalData: {
-    backendUrl: "http://www.ocalendar.com.cn/",
+    backendUrl: "https://www.ocalendar.com.cn/",
     photoPath: 'api/photo',
     orchidPath:'api/orchid',
     userInfoPath:'api/users',

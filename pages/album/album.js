@@ -96,7 +96,7 @@ bindLongPress: function(e) {
         const photo_count = res.data.floras.total;
         var lastPage = res.data.floras.last_page;
 
-        console.log('response',res.data);
+        //console.log('response',res.data);
 
         that.setData({
            species_count:species_count,
