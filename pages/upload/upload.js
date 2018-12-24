@@ -38,8 +38,9 @@ Page({
         imgArrNow = imgArrNow.concat(res.tempFilePaths);
         //console.log(imgArrNow);
 
-        var showInputName = false;
-        if(imgArrNow.length == 1) {showInputName = true};
+        var showInputName = true;
+        //var showInputName = false;
+        //if(imgArrNow.length == 1) {showInputName = true};
 
         that.setData({
           imgArr: imgArrNow,
@@ -101,16 +102,17 @@ Page({
     var that = this;
     var imgArr = that.data.imgArr;
     this.setData({ loading: !this.data.loading });
+
+    var inputName = e.detail.value.input;
    
     if(imgArr.length == 1){
-      var inputName = e.detail.value.input;
       that.uploadSingleFile(imgArr[0], inputName);
     }else{
       var successCount = 0;
       var failCount = 0;
       var i = 0;
       var length = imgArr.length;
-      that.uploadMultiFile(imgArr, successCount,failCount,i,length);
+      that.uploadMultiFile(imgArr, inputName, successCount,failCount,i,length);
     }
   },
 
@@ -118,7 +120,8 @@ Page({
     var that = this;
     var app = getApp();
     var url = app.globalData.backendUrl + app.globalData.photoPath;
-    var userId = wx.getStorageSync('userId');
+    var userId = app.globalData.currentUserInfo.userId;
+    //var userId = wx.getStorageSync('userId');
     
     //console.log('upload userId:', userId);
     
@@ -148,6 +151,7 @@ Page({
       },
       fail: function (res) {
         that.setData({
+          showChooseImageArea: false, 
           showUploadStatus: true,
           success: false,
           loading: false,
@@ -157,19 +161,19 @@ Page({
     })
   },
 
-  uploadMultiFile:function(filePaths, successCount, failCount, i, length) {
+  uploadMultiFile:function(filePaths, name, successCount, failCount, i, length) {
     
       var that = this;
       var app = getApp();
       var url = app.globalData.backendUrl + app.globalData.photoPath;
-      var userId = wx.getStorageSync('userId');
+      var userId = app.globalData.currentUserInfo.userId;
      
       wx.uploadFile({
         url: url,
         filePath: filePaths[i],
         name: 'file',
         formData: {
-          'name': '',
+          'name': name,
           'userId': userId
         },
 
@@ -179,6 +183,7 @@ Page({
           }else{
             that.setData({ isUploadError: true });
             failCount++;
+            console.log(res);
           }
         },
         fail: function(res) {
@@ -196,13 +201,14 @@ Page({
             });
           } else {  //递归调用uploadMultiFile函数
             if (that.data.isUploadError) {
-              that.setData({ 
+              that.setData({
+                showChooseImageArea: false,  
                 showUploadStatus: true,
                 success: false,
                 loading: false,
               });
             } else {
-              that.uploadMultiFile(filePaths, successCount, failCount, i, length);
+              that.uploadMultiFile(filePaths,name, successCount, failCount, i, length);
             }
           }
         }

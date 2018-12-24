@@ -62,7 +62,7 @@ Page({
   bindLoginTap: function () {
     if (getApp().globalData.myUserInfo) {
     wx.navigateTo({
-      url: './login'
+      url: './people'
     })
     }
   },

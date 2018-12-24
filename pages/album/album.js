@@ -38,7 +38,8 @@ bindLongPress: function(e) {
           //console.log('点击确定了');
           var app = getApp();
           var url = app.globalData.backendUrl + app.globalData.photoPath + "/"+ id;
-          var userId = wx.getStorageSync('userId');
+          var userId = getApp().globalData.currentUserInfo.userId;
+          //var userId = wx.getStorageSync('userId');
           wx.request({
             url: url,
             method: 'DELETE',
