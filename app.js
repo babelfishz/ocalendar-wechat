@@ -31,6 +31,7 @@ App({
               userInfo.userId = res.data;
               getApp().globalData.myUserInfo = userInfo;
               getApp().globalData.currentUserInfo = userInfo;
+              getApp().globalData.readWrite = true;
             }
             //getApp().getAllUserInfo();
             //console.log(getApp().globalData);
@@ -86,6 +87,6 @@ App({
     allUserInfo: [],
     myUserInfo:'',
     currentUserInfo:'',
-    readWrite:true,
+    readWrite:false,
   }
 })

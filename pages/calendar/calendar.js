@@ -17,9 +17,13 @@ Page({
     weekArr: ['日', '一', '二', '三', '四', '五', '六'],
     year: null,
     currentDate:'',
-    capturedList: [],
-    bucketList:[],
-    urls: [],
+
+    myFloras: [],
+    imgList: [],
+
+    hiddenFlag: true,
+    floraUrl: '',
+    floraName: '',
   },
 
   touchStart: function (e) {
@@ -77,15 +81,32 @@ Page({
       
       success: function (res) {
         if (res.statusCode == 200) {
-          //console.log(res.data);
-          var urls = [];
+          console.log(res);
+
+          var imgList = [];
           var i=0;
-          while(res.data[i]){
-            urls[i] = app.globalData.backendUrl + res.data[i].filePath + res.data[i].thumbnailFileName;
+
+          //that.setData({myFloras:res.data});
+          while(res.data.myFloras[i]){
+            imgList[i] = new Object();
+            imgList[i].url = app.globalData.backendUrl + res.data.myFloras[i].filePath + res.data.myFloras[i].thumbnailFileName;
+            imgList[i].isMyPhoto = true;
+            imgList[i].floraData = res.data.myFloras[i];
             i++;
           }
-          that.setData({urls:urls});  
-          //console.log(that.data.urls);
+
+          var ii = 0;
+          while (res.data.extraFloras[ii]) {
+            if (res.data.extraFloras[ii].floraName!=null){
+              imgList[i] = new Object();
+              imgList[i].url = app.globalData.backendUrl + res.data.extraFloras[ii].filePath + res.data.extraFloras[ii].thumbnailFileName;
+              imgList[i].isMyPhoto = false;
+              imgList[i].floraData = res.data.myFloras[ii];
+              i++;
+            }
+            ii++;
+          }
+          that.setData({imgList:imgList});
         }
       },
       fail:function (err) {
@@ -93,6 +114,7 @@ Page({
       }
     });
   },
+
 
   //获取日历相关参数
   dataTime: function () {
@@ -139,6 +161,32 @@ Page({
       getDate: this.data.getDate,
       month: this.data.month
     });
+  },
+
+  showMap:function(e){
+    /*console.log(e);
+    var index = e.currentTarget.dataset.index;
+    var that = this;
+    var flora = that.data.imgList[index];
+
+    var floraUrl = getApp().globalData.backendUrl + flora.floraData.filePath + flora.floraData.fileName;
+
+    that.setData({
+      floraUrl:floraUrl,
+      floraName:flora.floraData.floraName
+    });
+    that.showMask();*/
+    /*wx.navigateTo({
+      url: './map',
+    })*/
+  },
+
+  showMask: function () {
+    this.setData({ hiddenFlag: false })
+  },
+
+  closeMask: function () {
+    this.setData({ hiddenFlag: true })
   },
 
   /**

@@ -10,7 +10,21 @@
 </view>
 
 <view class="box1" style='width: {{ sysW * 7 }}px'> 
-  <block wx:for="{{urls}}" wx:key="*this">
-              <image style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px; padding:0  1px " src= "{{item}}" mode="aspectFill"/>
+  <block wx:for="{{imgList}}" wx:key="*this">
+              <image class='{{ item.isMyPhoto == true ?  "" : "target"}}' style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px; padding:0  1px " src= "{{item.url}}" mode="aspectFill" data-index="{{index}}" bindtap='showMap'/>
   </block>
+
+</view>
+
+<view class="b1" hidden="{{hiddenFlag}}">
+
+		<view class="b2">
+      <text>{{floraName}}</text>
+			<image src='{{floraUrl}}' mode='widthFix'/>
+		</view>
+		<view class="t_w">
+		   <cover-view class="t_image" bindtap="closeMask">
+		     <cover-image  src="../../image/delete.png"></cover-image>
+		  </cover-view>
+		</view>
 </view>

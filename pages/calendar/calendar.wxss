@@ -28,3 +28,41 @@
   color: #fff;
 }
 
+.target{
+  border-radius: 10%;
+  color: #fff;
+  padding: 5px 10px;
+}
+
+/* 设置背景遮罩层样式 */
+.b1 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+/* 设置展示图片大小 */
+.b2 {
+  width: 75%;
+  background:rgb(255, 255, 255);
+}
+/* 设置展示图片与关闭按钮图片的距离 */
+.t_w {
+  margin-top: 20rpx;
+}
+/* 设置关闭按钮图片显示的大小 */
+.b2 image {
+  width: 100%;
+  height: 100%;
+}
+/* 设置关闭按钮宽高 */
+.t_image {
+  width: 60rpx;
+  height: 60rpx;
+}
+

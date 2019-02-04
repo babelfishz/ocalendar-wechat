@@ -16,13 +16,13 @@ module.exports.concat = concat;
         <text class="page__title">Album</text>
         <text class="page__desc">{{species_count+'种兰花，'+photo_count+'张照片。'}}</text>
     </view>
-
+    
     <view class="section section_gap">
       <view class="section" wx:for="{{flora_by_month}}" wx:for-item="flora_of_month"  wx:for-index = "idx">
           <text class="page__desc">{{flora_of_month.year}}年{{flora_of_month.month+1}}月</text>
           <view class="image-list">
           <block wx:for="{{flora_of_month.flora}}" wx:key="id">
-                 <image style="width: {{(sysW-20)/3-2}}px; height:{{(sysW-20)/3-2}}px; padding:0 1px" src= "{{url_helper_1.concat(item)}}" mode="aspectFill" data-idx="{{idx}}" data-subidx="{{index}}" bindtap='viewImage' bindlongpress='bindLongPress'/>
+                 <image style="width: {{(sysW-20)/3-2}}px; height:{{(sysW-20)/3-2}}px; padding:0 1px" src= "{{url_helper_1.concat(item)}}" mode="aspectFill" data-idx="{{idx}}" data-subidx="{{index}}" bindtap='viewImage' bindlongpress='bindLongPress' bindload='bindImgLoad'/>
           </block>
           </view>
       </view>

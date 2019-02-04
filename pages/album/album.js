@@ -17,6 +17,8 @@ Page({
     hasMoreData: true,
    
     flora_by_month: [],
+
+    modalHidden: true,
   },
 
 bindLongPress: function(e) {
@@ -74,7 +76,20 @@ bindLongPress: function(e) {
     wx.navigateTo({
       url: "../picture/picture?idx=" + index + '&subidx=' + current
     })
+  },
 
+  bindImgLoad:function(e){
+    //console.log(e);
+    var that = this;
+    var i= that.data.flora_by_month.length-1;
+    var j= that.data.flora_by_month[i].flora.length-1;
+    if (e.currentTarget.dataset.idx == i & j == e.currentTarget.dataset.subidx)
+    {
+      //console.log("----this is last one", i, j);
+      if (that.data.hasMoreData) {
+        that.getFloraData();
+      }
+    }
   },
 
   getFloraData: function(){
@@ -267,9 +282,10 @@ bindLongPress: function(e) {
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    var that = this;
-    that.data.page = 1;
-    that.getFloraData();
+    //var that = this;
+    //that.data.page = 1;
+    //that.getFloraData();
+    console.log("pull down");
   },
 
   /**

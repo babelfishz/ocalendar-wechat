@@ -1,0 +1,9 @@
+<!--pages/calendar/map.wxml-->
+<map
+  id="map"
+  longitude="114.2033691"
+  latitude="22.5811615"
+  scale="15"
+  markers="{{markers}}"
+  style="width: 100%; height: 300px;"
+></map>
