@@ -45,6 +45,12 @@
     color: #888888;
     font-size: 14px;
 }
+.footer{
+    font-size: 14px;
+    padding-top: 20px;
+    padding-right: 40px;
+    float: right;
+}
 
 .widgets__item{
     margin-top: 10px;

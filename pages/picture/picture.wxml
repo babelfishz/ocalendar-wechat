@@ -17,6 +17,6 @@
     </view>
 
     <view class="section section_gap">
-        <image src= "{{flora.url}}" mode="widthFix" bindlongpress='savePhoto'/>
+        <image src= "{{flora.url}}" mode="widthFix" bindtap='slidePhoto' bindlongpress='savePhoto'/>
     </view>
 </view>

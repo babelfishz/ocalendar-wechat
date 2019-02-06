@@ -1,0 +1,17 @@
+<!--pages/album/slides.wxml-->
+<view class>
+  <swiper class="page" current="{{current}}" bindchange='photoSlide'>
+    <block wx:for="{{floraList}}" wx:for-index="index">
+      <swiper-item>
+        <view>
+          <text>{{item.name}}\n</text>
+          <text>{{speciesInfo[index].genus}}\n</text>
+          <text>{{item.created_time}}</text>
+        </view>
+        <view>
+          <image src='{{item.url}}' mode="widthFix"></image>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>

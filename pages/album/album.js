@@ -75,6 +75,7 @@ bindLongPress: function(e) {
 
     wx.navigateTo({
       url: "../picture/picture?idx=" + index + '&subidx=' + current
+      //url: "../album/slides?idx=" + index + '&subidx=' + current
     })
   },
 

@@ -48,9 +48,20 @@
 }
 /* 设置展示图片大小 */
 .b2 {
-  width: 75%;
-  background:rgb(255, 255, 255);
+  width: 100%;
+  background:rgb(243, 241, 241);
+  padding-left: 20px;
 }
+
+.b2_text{
+  padding-top: 10px;
+}
+
+.b2_image{
+  float: left;
+  margin: 10rpx 20rpx 0rpx 0rpx;
+}
+
 /* 设置展示图片与关闭按钮图片的距离 */
 .t_w {
   margin-top: 20rpx;
@@ -66,3 +77,25 @@
   height: 60rpx;
 }
 
+.flex-wrp-row {
+  display: flex;
+  flex-direction: row;
+  width: 85%;
+  background:rgb(245, 241, 241);
+}
+
+.item {
+  padding: 10rpx;
+  position: relative;
+}
+
+.item-left {
+   flex: 1; /* 重要 */
+   align-items:center;
+   padding-left: 10rpx;
+}
+
+.item-right {
+  position: relative;
+  align-items:center;
+}

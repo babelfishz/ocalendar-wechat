@@ -55,14 +55,18 @@ Page({
       app.globalData.readWrite = false;
     };
 
-    var pages = getCurrentPages();
+    wx.navigateTo({
+      url: '../album/album',
+    })
+
+    /*var pages = getCurrentPages();
     var prevPage = pages[pages.length - 2];
     prevPage.onLoad();
 
-    wx.navigateBack();
+    wx.navigateBack();*/
   },
 
-  bindSwitchBackTap:function(){
+  /*bindSwitchBackTap:function(){
     var app =getApp();
     app.globalData.currentUserInfo = app.globalData.myUserInfo;
     app.globalData.readWrite = true; 
@@ -72,7 +76,7 @@ Page({
     prevPage.onLoad();
 
     wx.navigateBack();
-  },
+  },*/
 
   updateUserInfo:function(){
     var app = getApp();
@@ -172,7 +176,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    var app = getApp();
+    app.globalData.currentUserInfo = app.globalData.myUserInfo;
+    app.globalData.readWrite = true; 
   },
 
   /**

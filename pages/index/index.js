@@ -19,21 +19,11 @@ Page({
   },
 
   bindUploadTap:function(){
-    if(getApp().globalData.readWrite){
+    if(getApp().globalData.myUserInfo){
       wx.navigateTo({
       url: '../upload/upload'
-    })
+      })
     }
-    /*wx.chooseImage({
-      count: 9,
-      sizeType: ['original'],
-      success: function (res) {
-        var imagePath = JSON.stringify(res.tempFilePaths);
-        wx.navigateTo({
-          url: "../upload/upload?srcPath="+imagePath
-         })
-      }
-    })*/
   },
 
   bindAlbumTap: function () {
@@ -53,9 +43,11 @@ Page({
   },
 
   bindPeoplesTap: function () {
-    wx.navigateTo({
-      url: '../target/peoples'
-    })
+    if (getApp().globalData.myUserInfo) {
+      wx.navigateTo({
+        url: '../target/peoples'
+      })
+    }
   },
 
 

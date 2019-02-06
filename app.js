@@ -24,7 +24,7 @@ App({
           method: 'GET',
           header: { 'content-type': 'application/json' },
           success: function (res) {
-            //console.log('userId:', res.data);
+            console.log(res);
             //wx.setStorageSync('userId', res.data);
             if(res.statusCode == 200){
               var userInfo = { userId: '', nickName: '', avatarUrl: '', city: '', province: '' };

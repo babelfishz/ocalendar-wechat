@@ -18,13 +18,42 @@
 
 <view class="b1" hidden="{{hiddenFlag}}">
 
-		<view class="b2">
-      <text>{{floraName}}</text>
+		<!--view class="b2">
+      <view class="b2_text">
+        <text>{{floraName}}\n</text>
+        <view class= 'page__desc'><text>{{floraCapturedTime}}</text></view>
+      </view>
 			<image src='{{floraUrl}}' mode='widthFix'/>
 		</view>
 		<view class="t_w">
 		   <cover-view class="t_image" bindtap="closeMask">
 		     <cover-image  src="../../image/delete.png"></cover-image>
 		  </cover-view>
+		</view-->
+
+    <view class="b2">
+      <view class='b2_image'>
+          <image src='{{floraUrl}}' mode='aspectFill' style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px; padding:0  1px " />
+      </view>
+      <view class="b2_text">
+        <text>{{floraName}}\n</text>
+        <view class= 'page__desc'><text>{{floraCapturedTime}}</text></view>
+      </view>
 		</view>
+		<view class="t_w">
+		   <cover-view class="t_image" bindtap="closeMask">
+		     <cover-image  src="../../image/delete.png"></cover-image>
+		  </cover-view>
+		</view>
+
+    <!--view class='flex-wrp-row item' bindtap="closeMask">
+      <view class='item-left flex-wrp-row'>
+        <image src="{{floraUrl}}" style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px" mode='aspectFill'/>
+        <view><text>{{floraName}}</text></view>
+        <view><text>{{floraName}}</text></view>
+      </view>
+      <view class='item-right flex-wrp-row'>
+         <text>{{floraName}}</text>
+      </view>
+    </view-->
 </view>

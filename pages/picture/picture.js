@@ -6,12 +6,14 @@ Page({
    */
   data: {
       flora:{id:'',url:'', name:'',created_time:''},
+
       family:'',
       genus:'',
       genusLatin: '', 
       speciesLatin: '',
       index_of_prevPage:'',
       subidx_of_prevPage:'',
+
       showModifyForm: false,
       cachedName:'',
       Loading:false,
@@ -142,6 +144,47 @@ Page({
     })
   },
 
+  slidePhoto: function(e){
+    console.log(e);
+
+    var that = this;
+    var index = Number(that.data.index_of_prevPage);
+    var subidx = Number(that.data.subidx_of_prevPage);
+
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    var flora_by_month = prevPage.data.flora_by_month;
+
+    //console.log(index,subidx);
+    //console.log(flora_by_month[index].flora.length);
+    //console.log(flora_by_month.length);    
+
+    if (e.detail.x < 160){
+      if (subidx == 0) {
+        if (index == 0) { }
+        else { index--; subidx = flora_by_month[index].flora.length-1;};
+      } else {
+        subidx--;
+      }
+    }else{
+      if(subidx == flora_by_month[index].flora.length-1){
+        if(index == flora_by_month.length-1){}
+        else{ index++; subidx = 0;};
+      }else{      
+        subidx++;
+      }
+  }
+
+    //console.log(index, subidx);    
+
+
+    var options = new Object();
+    options.idx = index;
+    options.subidx = subidx;
+
+    that.onLoad(options);
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -149,10 +192,12 @@ Page({
       var index = options.idx;
       var current = options.subidx;
 
+      //console.log(options);
+      //console.log(current);
+
       var pages = getCurrentPages();
       var prevPage = pages[pages.length - 2];  //上一个页面
       var flora_data = prevPage.data.flora_by_month[index].flora[current];
-
       var flora = {id:'',url:'', name:'',created_time:''};
       var app = getApp();
 

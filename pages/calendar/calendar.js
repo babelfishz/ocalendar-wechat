@@ -24,6 +24,7 @@ Page({
     hiddenFlag: true,
     floraUrl: '',
     floraName: '',
+    floraCapturedTime:'',
   },
 
   touchStart: function (e) {
@@ -101,7 +102,7 @@ Page({
               imgList[i] = new Object();
               imgList[i].url = app.globalData.backendUrl + res.data.extraFloras[ii].filePath + res.data.extraFloras[ii].thumbnailFileName;
               imgList[i].isMyPhoto = false;
-              imgList[i].floraData = res.data.myFloras[ii];
+              imgList[i].floraData = res.data.extraFloras[ii];
               i++;
             }
             ii++;
@@ -164,18 +165,21 @@ Page({
   },
 
   showMap:function(e){
-    /*console.log(e);
+    console.log(e);
     var index = e.currentTarget.dataset.index;
     var that = this;
     var flora = that.data.imgList[index];
 
-    var floraUrl = getApp().globalData.backendUrl + flora.floraData.filePath + flora.floraData.fileName;
+    var floraUrl = getApp().globalData.backendUrl + flora.floraData.filePath + flora.floraData.thumbnailFileName;
+    var floraCapturedTime = flora.floraData.dateTimeDigitized;
 
     that.setData({
       floraUrl:floraUrl,
-      floraName:flora.floraData.floraName
+      floraName:flora.floraData.floraName,
+      floraCapturedTime:floraCapturedTime,
     });
-    that.showMask();*/
+
+    that.showMask();
     /*wx.navigateTo({
       url: './map',
     })*/

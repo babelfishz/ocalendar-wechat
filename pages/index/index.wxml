@@ -1,7 +1,7 @@
 <!--index.wxml-->
 
 <view class="index">
-    <view class="head" bindtap="bindLoginTap">
+    <view class="head" >
         <view class="title">{{currentAlbumName}}的兰花日历</view>
         <view class="desc">行到水穷处，坐看云起时。</view>
     </view>
@@ -33,7 +33,9 @@
         </view>
     </view>
 
-    
+    <view class="footer" bindtap="bindLoginTap">
+      <text>分享></text>
+    </view>
 
 </view>
 
