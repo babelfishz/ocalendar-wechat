@@ -74,6 +74,9 @@ Page({
     var url = app.globalData.backendUrl + app.globalData.photoPath + "/" + month;
     var userId = app.globalData.currentUserInfo.userId;
 
+    console.log(url);
+    console.log(userId);
+
     wx.request({
       url: url,
       data: {
@@ -81,13 +84,10 @@ Page({
       },
       
       success: function (res) {
-        if (res.statusCode == 200) {
-          console.log(res);
-
+        if (res.statusCode) {
           var imgList = [];
-          var i=0;
+          var i= 0;
 
-          //that.setData({myFloras:res.data});
           while(res.data.myFloras[i]){
             imgList[i] = new Object();
             imgList[i].url = app.globalData.backendUrl + res.data.myFloras[i].filePath + res.data.myFloras[i].thumbnailFileName;

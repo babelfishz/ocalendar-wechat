@@ -7,11 +7,12 @@
 
     <view  class='avatar_list'>      
       <view wx:for="{{users}}" wx:for-index= 'idx'>        
-          <view class='avatar_item'>            
-              <image class='avatar' src='{{users[idx].avatarUrl}}' bindtap="bindChooseUserTap" data-index='{{idx}}'></image>            
-              <view>{{users[idx].nickName}}</view>          
+          <view class='avatar_item'>
+                <image class= 'avatar' src="{{item.avatarUrl}}" bindtap="bindChooseUserTap" data-index='{{idx}}'></image>
+                <image class ='changed_image' src='../../image/green_dot.png' hidden="{{!photoCountChanged[idx]}}"> </image>
+                <view>{{item.nickName}}</view>
             </view>        
-        </view>  
+        </view>
     </view>
 </view>
 
@@ -40,7 +41,7 @@
         </button>
     </view>
 
-    <view class='content' hidden = "{{resultHidden}}">
+    <view class='content' hidden = "{{!authorizationHidden}}">
         <button class='bottom' type='default' lang="zh_CN" bindtap='bindDeleteUserInfoTap'>
         取消分享
         </button>

@@ -6,11 +6,12 @@ Page({
    */
   data: {
     users: [],
+    photoCountChanged: [],
 
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userInfo: '',
     authorizationHidden: false,
-    resultHidden:true,
+    //resultHidden:true,
   },
 
   bindLoginTap: function(e){
@@ -32,15 +33,19 @@ Page({
     var that =this;
     var app = getApp();
     var url = app.globalData.backendUrl + app.globalData.userInfoPath +'/' + app.globalData.myUserInfo.userId;
-    console.log(url);
+    //console.log(url);
 
     wx.request({
       url: url,
       method: 'DELETE',
       success: function (res) {
-        console.log(res);
-        that.onLoad();      
-        },
+        //console.log(res);
+        //that.onLoad();
+        that.setData({
+          authorizationHidden: false,
+          //resultHidden: true,
+        })         
+      },
     });
   },
 
@@ -49,15 +54,26 @@ Page({
     var that = this;
     var app = getApp();
 
-    app.globalData.currentUserInfo = that.data.users[index]; 
-    if(app.globalData.currentUserInfo.userId == app.globalData.myUserInfo.userId){                     app.globalData.readWrite = true; 
-    } else { 
-      app.globalData.readWrite = false;
-    };
+    
+    var userInfo = that.data.users[index];
+
+    app.globalData.currentUserInfo = userInfo;
+    app.globalData.readWrite = false;
+
+    var photoCountChanged = that.data.photoCountChanged;
+    photoCountChanged[index] = false;
+    that.setData({photoCountChanged:photoCountChanged});
+
+    //console.log(that.data);
+
+    wx.setStorageSync(userInfo.nickName, userInfo.photoCount);
+    //var photoCount = wx.getStorageSync('hello');
+    //console.log(userInfo.userId);
+    //console.log(photoCount);
 
     wx.navigateTo({
       url: '../album/album',
-    })
+    });
 
     /*var pages = getCurrentPages();
     var prevPage = pages[pages.length - 2];
@@ -83,7 +99,6 @@ Page({
     var url = app.globalData.backendUrl + app.globalData.userInfoPath;
 
     var userId = app.globalData.myUserInfo.userId;
-
     var that = this;
 
     //console.log(userId);
@@ -103,7 +118,7 @@ Page({
         //console.log(res);
         that.setData({
           authorizationHidden:true,
-          resultHidden:false,
+          //resultHidden:false,
         });
       }
     });
@@ -123,12 +138,10 @@ Page({
         'userId': userId,
       },
       success: function (res) {
-        var users = res.data;
-        //console.log(users);
-        that.setData({users:users});
+        //console.log(res.data);
+        /*var users = res.data;
         function findUsers(users) { return users.userId == getApp().globalData.myUserInfo.userId };
         var me = users.findIndex(findUsers);
-        //console.log(me);
         if (me != -1) {
           users.splice(me, 1);
           that.setData({
@@ -140,7 +153,41 @@ Page({
           authorizationHidden:false,
           resultHidden:true,
         })
-        };
+        };*/
+
+        var peoples = res.data.peoples;
+        that.setData({ users: peoples });
+
+        if (res.data.hereAmI == true) {
+          that.setData({
+            authorizationHidden: true,
+          });
+        } else {
+          that.setData({
+            authorizationHidden: false,
+          })
+        }
+
+        var i = 0;
+        var photoCountChanged = that.data.photoCountChanged;
+        while (peoples[i]) {
+          var prevPhotoCount = wx.getStorageSync(peoples[i].nickName);
+          //console.log(prevPhotoCount, peoples[i].photoCount);
+          if (prevPhotoCount) {
+            if (peoples[i].photoCount != prevPhotoCount) {
+              photoCountChanged[i] = true;
+              
+            } else {
+              photoCountChanged[i] = false;
+            }
+          } else {
+            photoCountChanged[i] = true;
+          }
+          i++;
+        }
+        that.setData({ photoCountChanged: photoCountChanged });
+
+        //console.log(that.data);
       },
     })
   },

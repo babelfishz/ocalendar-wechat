@@ -41,15 +41,23 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  position: relative;
   width: 210rpx;
   padding: 20rpx 0;
 }
-
 
 .avatar{
   width: 140rpx;
   height: 140rpx;
   margin: 0 auto;
+}
+
+.changed_image{
+    position: absolute;
+    right: 10rpx;
+    top: 10rpx;
+    width: 20rpx;
+    height:20rpx;
 }
 
 

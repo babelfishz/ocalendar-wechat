@@ -41,7 +41,6 @@ bindLongPress: function(e) {
           var app = getApp();
           var url = app.globalData.backendUrl + app.globalData.photoPath + "/"+ id;
           var userId = getApp().globalData.currentUserInfo.userId;
-          //var userId = wx.getStorageSync('userId');
           wx.request({
             url: url,
             method: 'DELETE',
@@ -55,7 +54,6 @@ bindLongPress: function(e) {
               that.setData({
                 flora_by_month: flora_by_month, species_count:species,
                 photo_count: that.data.photo_count - 1});
-              //that.setData({photo_count:that.data.photo_count-1});
               },
             fail:function(res){
               console.log(res)}
@@ -98,7 +96,6 @@ bindLongPress: function(e) {
     var current_page = this.data.page;
     var app =getApp();
     var url = app.globalData.backendUrl + app.globalData.photoPath + '/?page=' + current_page;
-    //var myId = wx.getStorageSync('userId');
     var userId = getApp().globalData.currentUserInfo.userId;
    
     wx.request({
@@ -142,8 +139,6 @@ bindLongPress: function(e) {
         }
 
         while (flora[i]) {
-          //var date0 = new Date(flora[i].dateTimeDigitized);
-          //console.log('flora[i]',flora[i],i);
           var date0 = flora[i].dateTimeDigitized;
           if(date0){
               var date1 = date0.toString().replace(/-/g, "/");
@@ -154,10 +149,6 @@ bindLongPress: function(e) {
           
           var month = date.getMonth();
           var year = date.getFullYear();
-
-          //console.log(flora[i]);
-          //console.log(date);
-          //console.log('month=',month, 'year=',year);
 
           if (!flora_by_month[j]) {
             flora_by_month[j] = { year: year, month: month, flora: Array() };
@@ -179,33 +170,14 @@ bindLongPress: function(e) {
     })
   },
 
-  /*getSpeciesCount:function(){
-
-  },*/
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
 
-    //console.log("album:",options);
-
     var that = this;
     var sysInfo = wx.getSystemInfoSync();
     that.setData({ sysW: sysInfo.windowWidth });
-
-    /*var albumUserId = '';
-
-    if(options.userId){
-      albumUserId = options.userId;
-    }else{
-      albumUserId = wx.getStorageSync('userId');
-    };
-    that.setData({ albumUserId: albumUserId });*/
-
-    //console.log('-------',albumUserId);
-
-    //that.getUserName();
 
     that.getFloraData();
     //console.log(that.data.flora_by_month);
@@ -287,6 +259,13 @@ bindLongPress: function(e) {
     //that.data.page = 1;
     //that.getFloraData();
     console.log("pull down");
+    wx.showActionSheet({
+      itemList: ['查找', '取消'],
+      itemColor: '',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
   },
 
   /**
