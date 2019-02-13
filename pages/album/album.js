@@ -5,23 +5,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    albumUserId:'',
-    albumUserName:'',
-
     species_count: '',
     photo_count: '',
     sysW: '',
   
+    paginated: true,
     page: 1,
     pageSize: 30,
     hasMoreData: true,
    
     flora_by_month: [],
 
-    modalHidden: true,
+    searchFormHidden: true,
   },
 
-bindLongPress: function(e) {
+  bindLongPress: function(e) {
     
     if (!getApp().globalData.readWrite) return;
 
@@ -77,6 +75,36 @@ bindLongPress: function(e) {
     })
   },
 
+  showSearchForm:function(){
+    var that = this;
+    that.setData({ searchFormHidden: false });  },
+
+  searchByName:function(e){
+    var name = e.detail.value.input;
+    //console.log(name);
+    
+    var that = this;
+    var flora_by_month = [];
+    that.setData({
+      flora_by_month,flora_by_month,
+      paginated:false,
+    });
+
+    that.getFloraDataByName(name);
+  },
+
+  closeSearchForm:function(){
+    var that = this;
+    var flora_by_month = [];
+    that.setData({ 
+      searchFormHidden:true,
+      flora_by_month:flora_by_month,
+      page: 1,
+      paginated: true,
+    });
+    that.getFloraData();
+  },
+  
   bindImgLoad:function(e){
     //console.log(e);
     var that = this;
@@ -85,7 +113,7 @@ bindLongPress: function(e) {
     if (e.currentTarget.dataset.idx == i & j == e.currentTarget.dataset.subidx)
     {
       //console.log("----this is last one", i, j);
-      if (that.data.hasMoreData) {
+      if (that.data.hasMoreData && that.data.paginated) {
         that.getFloraData();
       }
     }
@@ -104,71 +132,105 @@ bindLongPress: function(e) {
         'userId': userId
       },
       success: function (res) {
-
-        const flora = res.data.floras.data;
-        const species_count = res.data.species;
-        const photo_count = res.data.floras.total;
-        var lastPage = res.data.floras.last_page;
-
-        //console.log('response',res.data);
-
-        that.setData({
-           species_count:species_count,
-           photo_count:photo_count
-        });
-
-        if(current_page != lastPage){
-            current_page = current_page + 1;
-            that.setData({page:current_page,
-              hasMoreData: true});
-            }
-        else{
-            that.setData({hasMoreData:false});
-        }
-        
-        var i = 0;
-        var flora_by_month = that.data.flora_by_month;
-
-        if (flora_by_month.length !=0 ){
-          var j = flora_by_month.length-1;
-          var last_month = flora_by_month[j].month;
-        }
-        else{
-          var j = 0;
-          var last_month = 0; 
-        }
-
-        while (flora[i]) {
-          var date0 = flora[i].dateTimeDigitized;
-          if(date0){
-              var date1 = date0.toString().replace(/-/g, "/");
-          }else{
-              var date1 = date0;
-          }
-          var date = new Date(date1);
-          
-          var month = date.getMonth();
-          var year = date.getFullYear();
-
-          if (!flora_by_month[j]) {
-            flora_by_month[j] = { year: year, month: month, flora: Array() };
-          } else if (month != last_month) {
-            j++;
-            flora_by_month[j] = { year: year, month: month, flora: Array() };
-          }
-
-          last_month = month;
-          flora_by_month[j].flora = flora_by_month[j].flora.concat(flora[i]);
-          i++;
-        };
-
-        that.setData({ flora_by_month: flora_by_month });
+        that.makeTimeLine(res);
       },
       fail: function (err) {
         console.log(err)
       }
     })
   },
+
+  getFloraDataByName: function (name) {
+    var that = this;
+    var app = getApp();
+    var url = app.globalData.backendUrl + app.globalData.photoPath + '/name/'+ name;
+    var userId = getApp().globalData.currentUserInfo.userId;
+
+    wx.request({
+      url: url,
+      data: {
+        'userId': userId
+      },
+      success: function (res) {
+        //console.log(res);
+        that.makeTimeLine(res);
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+  },
+
+  makeTimeLine: function(res){
+
+    const flora = res.data.floras.data;
+    const species_count = res.data.species;
+    const photo_count = res.data.floras.total;
+    var lastPage = res.data.floras.last_page;
+
+    //console.log('response',res.data);
+
+    var that = this;
+    var current_page = this.data.page;
+
+    that.setData({
+      species_count: species_count,
+      photo_count: photo_count
+    });
+
+    if (current_page != lastPage) {
+      current_page = current_page + 1;
+      that.setData({
+        page: current_page,
+        hasMoreData: true
+      });
+    }
+    else {
+      that.setData({ hasMoreData: false });
+    }
+
+    var i = 0;
+    var flora_by_month = that.data.flora_by_month;
+
+    if (flora_by_month.length != 0) {
+      var j = flora_by_month.length - 1;
+      var last_month = flora_by_month[j].month;
+      var last_year = flora_by_month[j].year;
+    }
+    else {
+      var j = 0;
+      var last_month = 0;
+      var last_year = 0;
+    }
+
+    while (flora[i]) {
+      var date0 = flora[i].dateTimeDigitized;
+      if (date0) {
+        var date1 = date0.toString().replace(/-/g, "/");
+      } else {
+        var date1 = date0;
+      }
+      var date = new Date(date1);
+
+      var month = date.getMonth();
+      var year = date.getFullYear();
+
+      if (!flora_by_month[j]) {
+        flora_by_month[j] = { year: year, month: month, flora: Array() };
+      } else if (month != last_month || year != last_year) {
+        j++;
+        flora_by_month[j] = { year: year, month: month, flora: Array() };
+      }
+
+      last_month = month;
+      last_year = year;
+      flora_by_month[j].flora = flora_by_month[j].flora.concat(flora[i]);
+      i++;
+    };
+
+    that.setData({ flora_by_month: flora_by_month });
+  },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -182,48 +244,7 @@ bindLongPress: function(e) {
     that.getFloraData();
     //console.log(that.data.flora_by_month);
   },
-
-
-  /*onLoad: function (options) {
-    var that = this;
-    wx.request({
-      url: "http://47.74.251.157/photo",
-      success: function (res) {
-        var app = getApp();
-        
-        const flora = res.data;
-
-        var i=0; 
-        var j=0;
-        var flora_by_month = new Array();
-        var last_month = 0;
-
-        while(flora[i]){
-          var date = new Date(flora[i].dateTimeDigitized);
-          var month = date.getMonth();
-          
-          if(!flora_by_month[j]){
-            flora_by_month[j] = new Array();
-            }else if (month != last_month) {
-              j++;
-              flora_by_month[j] = new Array();
-            }
-     
-          last_month = month;
-          flora_by_month[j] = flora_by_month[j].concat(flora[i]);
-          i++;
-        };
-
-        that.setData({flora_by_month:flora_by_month});
-        console.log(that.data.flora_by_month);
-        //console.log(that.data);
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
-  },*/
-
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -255,17 +276,10 @@ bindLongPress: function(e) {
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    //var that = this;
-    //that.data.page = 1;
-    //that.getFloraData();
-    console.log("pull down");
-    wx.showActionSheet({
-      itemList: ['查找', '取消'],
-      itemColor: '',
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
+    //console.log("pull down");
+    var that = this;
+    that.showSearchForm();
+    wx.stopPullDownRefresh();
   },
 
   /**
@@ -273,7 +287,8 @@ bindLongPress: function(e) {
    */
   onReachBottom: function () {
     var that = this;
-    if (that.data.hasMoreData) {
+    if (that.data.hasMoreData && that.data.paginated) {
+      //console.log("send flora request")
       that.getFloraData();
     } else {
       wx.showToast({

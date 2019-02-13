@@ -16,7 +16,7 @@
         <view class="widgets__item">
             <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindAlbumTap">
                     <text class="widgets__info-name">回忆</text>
-                    <image class="widgets__info-img" src="../../image/view.png" background-size="cover" />
+                    <image class="widgets__info-img" src="../../image/remember.png" background-size="cover" />
             </view>
         </view>
         <!--view class="widgets__item">
