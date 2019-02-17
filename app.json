@@ -8,7 +8,8 @@
     "pages/picture/picture",
     "pages/index/people",
     "pages/calendar/map",
-    "pages/album/slides"
+    "pages/album/slides",
+    "pages/index/search"
   ],
   "window": {
     "backgroundTextStyle": "light",

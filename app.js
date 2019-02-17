@@ -3,11 +3,11 @@ App({
 
   onLaunch: function () {
     // 登录
-     var that = this;
-     that.getMyUserId();
+    //var that = this;
+    //that.getMyUserId();
   },
 
-  getMyUserId: function(){
+  /*getMyUserId: function(){
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -42,7 +42,7 @@ App({
         })
       }
     }) 
-  },
+  },*/
 
   /*onLaunch: function () {
     // 展示本地存储能力

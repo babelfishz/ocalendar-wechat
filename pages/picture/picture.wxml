@@ -1,5 +1,6 @@
-<view class="page">
+<view class="pages">
     <view class="page__hd_small" bindlongpress='showModifyForm'>
+        <image src="../../image/save.png" class="icons" background-size="cover" bindtap='savePhoto'></image>
         <text class="page__title" >{{flora.name}}</text>
         <text class="page__title2" >{{family + ' '+ genus + ' ' +speciesLatin + ' ' +genusLatin +'\n'}}</text>
         <text class="page__desc">{{flora.created_time}}</text>
@@ -17,6 +18,15 @@
     </view>
 
     <view class="section section_gap">
-        <image src= "{{flora.url}}" mode="widthFix" bindtap='slidePhoto' bindlongpress='savePhoto'/>
+      <!--scroll-view class="photo_container" scroll-x="true" scroll-y="true" data-time="{{lastTapTime}}"  bindtap='doubleClick' bindtouchstart='touchstartCallback' bindtouchmove='touchmoveCallback'-->
+      <!--scroll-view class="photo_container" scroll-x="true" data-time="{{lastTapTime}}"  bindtap='doubleClick' bindtouchstart='touchstartCallback' bindtouchmove='touchmoveCallback'-->
+      <movable-area style= "width:{{baseWidth}}rpx; height:{{baseHeight}}rpx">
+        <movable-view style= "width:{{baseWidth}}rpx; height:{{baseHeight}}rpx" direction="all" scale="true" scale-value="{{scale}}" animation="false" out-of-bounds="true" data-time="{{lastTapTime}}"  bindtap='doubleClick'>
+          <image class="photo_slide_left" src="../../image/left.png" style="top:{{baseHeight/2}}rpx; left:0rpx" data-direction="left" hidden="{{!showLeftArrow}}" bindtap='slidePhoto'/>        
+          <image class="photo" src= "{{flora.url}}" bindload='loadPhoto' style="width: {{ baseWidth }}rpx; height: {{ baseHeight}}rpx" />
+          <image class="photo_slide_right" src="../../image/right.png" style="top:{{baseHeight/2}}rpx; left:{{ baseWidth - 40}}rpx" data-direction="right" hidden="{{!showLeftArrow}}" bindtap='slidePhoto'/>  
+        </movable-view>
+      </movable-area>
+      <!--/scroll-view-->
     </view>
 </view>

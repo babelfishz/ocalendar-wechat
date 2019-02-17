@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
+    motto: '行到水穷处，...',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -42,15 +42,6 @@ Page({
     }
   },
 
-  bindPeoplesTap: function () {
-    if (getApp().globalData.myUserInfo) {
-      wx.navigateTo({
-        url: '../target/peoples'
-      })
-    }
-  },
-
-
   bindLoginTap: function () {
     if (getApp().globalData.myUserInfo) {
     wx.navigateTo({
@@ -58,9 +49,57 @@ Page({
     })
     }
   },
+
+  bindSearchTap:function(){
+    if (getApp().globalData.myUserInfo) {
+      wx.navigateTo({
+        url: './search'
+      })
+    }
+  },
   
+  getMyUserId: function () {
+    var that = this;
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        var app = getApp();
+        var url = app.globalData.backendUrl + 'api/getcode';
+        wx.request({
+          //后台接口地址 
+          url: url,
+          data: {
+            code: res.code, // code 必须给 
+            //encryptedData: res_user.encryptedData, //密文串 必须给 
+            //iv: res_user.iv //加密初始量 必给 
+          },
+          method: 'GET',
+          header: { 'content-type': 'application/json' },
+          success: function (res) {
+            //console.log(res);
+            if (res.statusCode == 200) {
+              var userInfo = { userId: '', nickName: '', avatarUrl: '', city: '', province: '' };
+              userInfo.userId = res.data;
+              getApp().globalData.myUserInfo = userInfo;
+              getApp().globalData.currentUserInfo = userInfo;
+              getApp().globalData.readWrite = true;
+
+              that.setData({ motto: '行到水穷处，坐看云起时。'});
+            }
+            //getApp().getAllUserInfo();
+            //console.log(getApp().globalData);
+          },
+          fail: function (res) {
+            console.log(res);
+          }
+        })
+      }
+    })
+  },
+
   onLoad: function () {
     var that = this;
+    that.getMyUserId();
     
     if(getApp().globalData.myUserInfo.userId == getApp().globalData.currentUserInfo.userId){
       that.setData({currentAlbumName:'我'});

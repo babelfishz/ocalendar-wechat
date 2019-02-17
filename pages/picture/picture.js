@@ -1,6 +1,6 @@
 // pages/picture/picture.js
-Page({
 
+Page({
   /**
    * 页面的初始数据
    */
@@ -13,6 +13,14 @@ Page({
       speciesLatin: '',
       index_of_prevPage:'',
       subidx_of_prevPage:'',
+
+      showLeftArrow: false,
+      showRightArrow: false,
+
+      lastTapTime: 0,
+      baseWidth: null,
+      baseHeight: null,
+      scale:1,
 
       showModifyForm: false,
       cachedName:'',
@@ -144,8 +152,7 @@ Page({
     })
   },
 
-  slidePhoto: function(e){
-    console.log(e);
+  slidePhoto: function (e) {
 
     var that = this;
     var index = Number(that.data.index_of_prevPage);
@@ -155,28 +162,24 @@ Page({
     var prevPage = pages[pages.length - 2];  //上一个页面
     var flora_by_month = prevPage.data.flora_by_month;
 
-    //console.log(index,subidx);
-    //console.log(flora_by_month[index].flora.length);
-    //console.log(flora_by_month.length);    
+    var direction = e.currentTarget.dataset.direction;
+    //console.log(direction);
 
-    if (e.detail.x < 160){
+    if (direction === "left") {
       if (subidx == 0) {
         if (index == 0) { }
-        else { index--; subidx = flora_by_month[index].flora.length-1;};
+        else { index--; subidx = flora_by_month[index].flora.length - 1; };
       } else {
         subidx--;
       }
-    }else{
-      if(subidx == flora_by_month[index].flora.length-1){
-        if(index == flora_by_month.length-1){}
-        else{ index++; subidx = 0;};
-      }else{      
+    } else if (direction === "right") {
+      if (subidx == flora_by_month[index].flora.length - 1) {
+        if (index == flora_by_month.length - 1) { }
+        else { index++; subidx = 0; };
+      } else {
         subidx++;
       }
-  }
-
-    //console.log(index, subidx);    
-
+    }else{console.log("err")}
 
     var options = new Object();
     options.idx = index;
@@ -184,6 +187,42 @@ Page({
 
     that.onLoad(options);
   },
+
+  loadPhoto:function(e){
+    //console.log(e);
+    var that = this;
+
+    var photoWidth = e.detail.width;
+    var photoHeight = e.detail.height;
+    var ratio = photoWidth/photoHeight;
+
+    var baseWidth = 698;
+    var baseHeight = baseWidth/ratio;
+
+
+    that.setData({
+      baseWidth: baseWidth,
+      baseHeight:baseHeight,
+      showLeftArrow:true,
+      showRightArrow:true,
+    })
+  },
+
+  doubleClick: function (e) {
+    var curTime = e.timeStamp;
+    var lastTime = e.currentTarget.dataset.time;
+    
+    /*双击恢复原来大小*/
+    var that = this;
+    if (curTime - lastTime > 0) {
+      if (curTime - lastTime < 300) {
+        that.setData({scale:1});
+      }
+    }
+    this.setData({
+      lastTapTime: curTime
+    });
+  }, 
 
   /**
    * 生命周期函数--监听页面加载
