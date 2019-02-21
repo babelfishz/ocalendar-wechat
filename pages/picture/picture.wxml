@@ -6,7 +6,7 @@
         <text class="page__desc">{{flora.created_time}}</text>
 
         <form  class="{{showModifyForm?'':'hide'}}" catchsubmit="formSubmit">
-          <view class="section">
+          <view class="input">
             <input name="input" placeholder="请在这里输入要修改的名字" value="{{cachedName}}"/>
             <button type= "primary" formType="submit">确定</button>
             <button bindtap='cacelModifyForm'>取消</button>

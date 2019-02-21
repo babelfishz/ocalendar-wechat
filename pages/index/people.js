@@ -16,10 +16,6 @@ Page({
 
   bindLoginTap: function(e){
     
-    //console.log(e.detail.errMsg);
-    //console.log(e.detail.userInfo);
-    //console.log(e.detail.rawData);
-
     var that = this;
     that.setData({userInfo:e.detail.userInfo});
     that.updateUserInfo();
@@ -40,10 +36,8 @@ Page({
       method: 'DELETE',
       success: function (res) {
         //console.log(res);
-        //that.onLoad();
         that.setData({
           authorizationHidden: false,
-          //resultHidden: true,
         })         
       },
     });
@@ -67,32 +61,12 @@ Page({
     //console.log(that.data);
 
     wx.setStorageSync(userInfo.nickName, userInfo.photoCount);
-    //var photoCount = wx.getStorageSync('hello');
-    //console.log(userInfo.userId);
-    //console.log(photoCount);
 
     wx.navigateTo({
-      url: '../album/album',
+      url: '../album/album?readWrite=false' + '&type=default'
     });
 
-    /*var pages = getCurrentPages();
-    var prevPage = pages[pages.length - 2];
-    prevPage.onLoad();
-
-    wx.navigateBack();*/
   },
-
-  /*bindSwitchBackTap:function(){
-    var app =getApp();
-    app.globalData.currentUserInfo = app.globalData.myUserInfo;
-    app.globalData.readWrite = true; 
-
-    var pages = getCurrentPages();
-    var prevPage = pages[pages.length - 2];
-    prevPage.onLoad();
-
-    wx.navigateBack();
-  },*/
 
   updateUserInfo:function(){
     var app = getApp();
@@ -100,9 +74,6 @@ Page({
 
     var userId = app.globalData.myUserInfo.userId;
     var that = this;
-
-    //console.log(userId);
-    //console.log(that.data.userInfo);
 
     wx.request({
       url: url,

@@ -9,6 +9,11 @@
   overflow: scroll;
 }
 
+.input{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .icons{
     float: right;
     margin: 5px;

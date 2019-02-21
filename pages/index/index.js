@@ -29,7 +29,7 @@ Page({
   bindAlbumTap: function () {
     if(getApp().globalData.myUserInfo){
     wx.navigateTo({
-      url: '../album/album'
+      url: '../album/album?readWrite=true' + '&type=default'
     })
     }
   },
@@ -53,7 +53,8 @@ Page({
   bindSearchTap:function(){
     if (getApp().globalData.myUserInfo) {
       wx.navigateTo({
-        url: './search'
+        //url: './search'
+        url: '../album/album?readWrite=false' + '&type=searchAll'
       })
     }
   },

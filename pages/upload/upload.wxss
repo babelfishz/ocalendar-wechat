@@ -24,6 +24,7 @@
     background-color: #ffffff;
     margin-top: 30rpx;
     margin-left: 30rpx;
+    margin-bottom: 30rpx;
     border: 1px solid lightgray;
     text-align: center;
     line-height: 180rpx;

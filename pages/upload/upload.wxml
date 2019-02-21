@@ -4,6 +4,7 @@
         <text class="page__title">记录</text>
         <text class="page__desc">上传到某个地方。</text>
   </view>
+  
   <view class="page__bd">
         <form class="page__bd" catchsubmit="formSubmit">
         <view class="{{showChooseImageArea?'':'hide'}}">
@@ -39,7 +40,6 @@
             </view>
             <view class="{{(showUploadStatus && !success)?'':'hide'}}">
             <text class="page__desc">记录失败了，请重新选择上传。</text>
-            <!--button type= "primary" loading="{{loading}}" formType="submit">重试</button>-->
             </view>
           </view>
         </form>

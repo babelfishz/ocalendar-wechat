@@ -25,6 +25,7 @@ Page({
     floraUrl: '',
     floraName: '',
     floraCapturedTime:'',
+    floraPhotoby: 'myself',
   },
 
   touchStart: function (e) {
@@ -74,8 +75,8 @@ Page({
     var url = app.globalData.backendUrl + app.globalData.photoPath + "/" + month;
     var userId = app.globalData.currentUserInfo.userId;
 
-    console.log(url);
-    console.log(userId);
+    //console.log(url);
+    //console.log(userId);
 
     wx.request({
       url: url,
@@ -84,7 +85,8 @@ Page({
       },
       
       success: function (res) {
-        if (res.statusCode) {
+        console.log(res.data);
+        if (res.statusCode == 200) {
           var imgList = [];
           var i= 0;
 
@@ -172,11 +174,17 @@ Page({
 
     var floraUrl = getApp().globalData.backendUrl + flora.floraData.filePath + flora.floraData.thumbnailFileName;
     var floraCapturedTime = flora.floraData.dateTimeDigitized;
+    if (flora.floraData.nickName){
+      var floraPhotoby = flora.floraData.nickName;
+    }else{
+      var floraPhotoby = "myself";
+    }
 
     that.setData({
       floraUrl:floraUrl,
       floraName:flora.floraData.floraName,
       floraCapturedTime:floraCapturedTime,
+      floraPhotoby:floraPhotoby,
     });
 
     that.showMask();

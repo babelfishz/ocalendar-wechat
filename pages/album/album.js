@@ -5,22 +5,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-    species_count: '',
-    photo_count: '',
+    species_count: 0,
+    photo_count: 0,
     sysW: '',
-  
+
+    apiPath:'/name/',
     paginated: true,
     page: 1,
     pageSize: 30,
     hasMoreData: true,
    
     flora_by_month: [],
+    pendingRequest: false,
 
+    pulldownIconHidden: false,
     searchFormHidden: true,
+    searchFormCancelHidden: false,
+    title:'相册',
   },
 
   bindLongPress: function(e) {
     
+    //console.log(getApp().globalData.readWrite);
     if (!getApp().globalData.readWrite) return;
 
     var index = e.currentTarget.dataset.idx;
@@ -65,28 +71,28 @@ Page({
   },
 
   viewImage: function (e) {
-
     var index = e.currentTarget.dataset.idx;
     var current = e.currentTarget.dataset.subidx;
 
     wx.navigateTo({
       url: "../picture/picture?idx=" + index + '&subidx=' + current
-      //url: "../album/slides?idx=" + index + '&subidx=' + current
     })
   },
 
   showSearchForm:function(){
     var that = this;
-    that.setData({ searchFormHidden: false });  },
+    that.setData({ searchFormHidden: false });  
+  },
 
   searchByName:function(e){
     var name = e.detail.value.input;
+    if(!name) return;
     //console.log(name);
     
     var that = this;
     var flora_by_month = [];
     that.setData({
-      flora_by_month,flora_by_month,
+      flora_by_month:flora_by_month,
       paginated:false,
     });
 
@@ -102,23 +108,30 @@ Page({
       page: 1,
       paginated: true,
     });
-    that.getFloraData();
+    var options = new Object();
+    options.type = 'default';
+    that.onLoad(options);
   },
   
   bindImgLoad:function(e){
     //console.log(e);
     var that = this;
+    if(that.data.paginated != true) return;
+
     var i= that.data.flora_by_month.length-1;
     var j= that.data.flora_by_month[i].flora.length-1;
-    if (e.currentTarget.dataset.idx == i & j == e.currentTarget.dataset.subidx)
+    //console.log(i, j);
+    //console.log(e.currentTarget.dataset);
+    if (e.currentTarget.dataset.idx == i & e.currentTarget.dataset.subidx == j)
     {
       //console.log("----this is last one", i, j);
-      if (that.data.hasMoreData && that.data.paginated) {
+      if (that.data.hasMoreData) {
         that.getFloraData();
       }
     }
   },
 
+  /*分页，用current page来判断乱序的返回请求 */
   getFloraData: function(){
     var that = this;
     var current_page = this.data.page;
@@ -132,7 +145,19 @@ Page({
         'userId': userId
       },
       success: function (res) {
-        that.makeTimeLine(res);
+        //console.log(res);
+        if (res.statusCode == 200) {
+          var responsePage = res.data.floras.current_page;
+          var current_page = that.data.page;
+            //console.log('response',responsePage);
+            //console.log("current page", current_page);
+          if (responsePage == current_page) {
+            that.makeTimeLine(res);
+            that.proceedingPages(res);
+          } else {
+            console.log("discard out of order response")
+          }
+        }     
       },
       fail: function (err) {
         console.log(err)
@@ -140,54 +165,65 @@ Page({
     })
   },
 
+  /*不分页，用pending request避免多余的查询请求*/
   getFloraDataByName: function (name) {
     var that = this;
     var app = getApp();
-    var url = app.globalData.backendUrl + app.globalData.photoPath + '/name/'+ name;
+    var url = app.globalData.backendUrl + app.globalData.photoPath + that.data.apiPath + name;
     var userId = getApp().globalData.currentUserInfo.userId;
 
-    wx.request({
-      url: url,
-      data: {
-        'userId': userId
-      },
-      success: function (res) {
-        //console.log(res);
-        that.makeTimeLine(res);
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
+    if (that.data.pendingRequest != true) {
+      that.setData({ pendingRequest: true });
+      wx.request({
+        url: url,
+        data: {
+          'userId': userId,
+        },
+        success: function (res) {
+          //console.log(res);
+          if (res.statusCode == 200) {
+              that.makeTimeLine(res);
+          }
+          that.setData({ pendingRequest: false });
+        },
+        fail: function (err) {
+          console.log(err);
+          that.setData({ pendingRequest: false });
+        }
+      })
+    }
   },
 
-  makeTimeLine: function(res){
-
-    const flora = res.data.floras.data;
-    const species_count = res.data.species;
-    const photo_count = res.data.floras.total;
-    var lastPage = res.data.floras.last_page;
-
-    //console.log('response',res.data);
-
+  /*分页时前进一页*/
+  proceedingPages:function(res){
     var that = this;
-    var current_page = this.data.page;
-
-    that.setData({
-      species_count: species_count,
-      photo_count: photo_count
-    });
+    var current_page = that.data.page;
+    var lastPage = res.data.floras.last_page;
 
     if (current_page != lastPage) {
       current_page = current_page + 1;
       that.setData({
         page: current_page,
-        hasMoreData: true
+        hasMoreData: true,
       });
     }
     else {
       that.setData({ hasMoreData: false });
-    }
+    }  
+  },
+
+  /*把照片按月放入时间线*/
+  makeTimeLine: function(res){
+    const flora = res.data.floras.data;
+    const species_count = res.data.species;
+    const photo_count = res.data.floras.total;
+  
+    var that = this;
+
+    that.setData({
+      species_count: species_count,
+      photo_count: photo_count
+    });
 
     var i = 0;
     var flora_by_month = that.data.flora_by_month;
@@ -237,12 +273,35 @@ Page({
    */
   onLoad: function (options) {
     
-
     var that = this;
+    getApp().globalData.readWrite = options.readWrite=='true'?true:false;
+    //console.log(getApp().globalData);
+
     var sysInfo = wx.getSystemInfoSync();
     that.setData({ sysW: sysInfo.windowWidth });
 
-    that.getFloraData();
+    if(options.type == 'default'){
+      that.setData({
+        pulldownIconHidden: false,
+        searchFormHidden: true,
+        serarchFormCancelHidden: false,
+        title:'相册',
+        apiPath:'/name/',
+      });
+      that.getFloraData();
+    }else if(options.type == 'searchAll')
+    {
+        that.setData({
+        pulldownIconHidden: true,
+        searchFormHidden: false,
+        searchFormCancelHidden: true,
+        title : '查找',
+        apiPath:'/all/name/',
+      });
+    }else{
+      console.log('wrong type');
+    }
+
     //console.log(that.data.flora_by_month);
   },
   
@@ -270,7 +329,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    getApp().globalData.readWrite = false;
   },
 
   /**
@@ -279,7 +338,9 @@ Page({
   onPullDownRefresh: function () {
     //console.log("pull down");
     var that = this;
-    that.showSearchForm();
+    if(that.data.pulldownIconHidden != true){
+      that.showSearchForm();
+    }
     wx.stopPullDownRefresh();
   },
 

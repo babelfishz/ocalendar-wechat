@@ -94,7 +94,8 @@ Page({
     wx.request({
       url: url,
       success: function (res) {
-        var data = res.data[0];
+        //console.log(res.data);
+        var data = res.data;
         if (data) {
           that.setData({ 
             genus: data.genus,
