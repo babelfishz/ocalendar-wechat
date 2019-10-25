@@ -8,12 +8,15 @@ Page({
     species_count: 0,
     photo_count: 0,
     sysW: '',
+    windowWidth: 0,
 
     apiPath:'/name/',
     paginated: true,
     page: 1,
     pageSize: 30,
     hasMoreData: true,
+
+    year:'',
    
     flora_by_month: [],
     pendingRequest: false,
@@ -22,6 +25,17 @@ Page({
     searchFormHidden: true,
     searchFormCancelHidden: false,
     title:'相册',
+  },
+
+  bindStartTimeChange:function(e){
+    //console.log(e);
+
+    this.setData({
+      page: 1, 
+      year: e.detail.value,
+      flora_by_month: [],
+    });
+    this.getFloraData();
   },
 
   bindLongPress: function(e) {
@@ -81,30 +95,30 @@ Page({
 
   showSearchForm:function(){
     var that = this;
-    that.setData({ searchFormHidden: false });  
+    that.setData({ 
+      searchFormHidden: false,
+      flora_by_month:[], 
+    });  
   },
 
   searchByName:function(e){
+    //console.log(e);
     var name = e.detail.value.input;
     if(!name) return;
-    //console.log(name);
-    
-    var that = this;
-    var flora_by_month = [];
-    that.setData({
-      flora_by_month:flora_by_month,
-      paginated:false,
-    });
 
-    that.getFloraDataByName(name);
+    this.setData({
+      flora_by_month: [],
+      paginated: false,
+    });  
+  
+    this.getFloraDataByName(name);
   },
 
   closeSearchForm:function(){
     var that = this;
-    var flora_by_month = [];
     that.setData({ 
       searchFormHidden:true,
-      flora_by_month:flora_by_month,
+      flora_by_month:[],
       page: 1,
       paginated: true,
     });
@@ -117,6 +131,8 @@ Page({
     //console.log(e);
     var that = this;
     if(that.data.paginated != true) return;
+
+    //console.log(that.data);
 
     var i= that.data.flora_by_month.length-1;
     var j= that.data.flora_by_month[i].flora.length-1;
@@ -142,7 +158,8 @@ Page({
     wx.request({
       url: url,
       data: {
-        'userId': userId
+        'userId': userId,
+        'year': that.data.year,
       },
       success: function (res) {
         //console.log(res);
@@ -180,11 +197,13 @@ Page({
           'userId': userId,
         },
         success: function (res) {
-          //console.log(res);
+          console.log('query by name',res);
           if (res.statusCode == 200) {
               that.makeTimeLine(res);
           }
-          that.setData({ pendingRequest: false });
+          that.setData({ 
+            pendingRequest: false 
+          });
         },
         fail: function (err) {
           console.log(err);
@@ -214,15 +233,19 @@ Page({
 
   /*把照片按月放入时间线*/
   makeTimeLine: function(res){
+    //console.log(res);
+
     const flora = res.data.floras.data;
     const species_count = res.data.species;
-    const photo_count = res.data.floras.total;
-  
+    const photo_count = res.data.count;
+    const year_species_count = res.data.speciesOfYear;
     var that = this;
 
     that.setData({
       species_count: species_count,
-      photo_count: photo_count
+      year_species_count: year_species_count,
+      photo_count: photo_count,
+      year_count: res.data.floras.total,
     });
 
     var i = 0;
@@ -251,6 +274,9 @@ Page({
       var month = date.getMonth();
       var year = date.getFullYear();
 
+      //flora[i].thumbUrl = "https://" + "www.ocalendar.com.cn" + "/" + flora[i].filePath + flora[i].thumbnailFileName;
+      flora[i].thumbUrl = getApp().globalData.backendUrl + flora[i].filePath + flora[i].thumbnailFileName;
+
       if (!flora_by_month[j]) {
         flora_by_month[j] = { year: year, month: month, flora: Array() };
       } else if (month != last_month || year != last_year) {
@@ -264,6 +290,7 @@ Page({
       i++;
     };
 
+    //console.log(flora_by_month);
     that.setData({ flora_by_month: flora_by_month });
   },
 
@@ -278,15 +305,25 @@ Page({
     //console.log(getApp().globalData);
 
     var sysInfo = wx.getSystemInfoSync();
-    that.setData({ sysW: sysInfo.windowWidth });
+
+    that.setData({ 
+      sysW: sysInfo.windowHeight / 12,
+      windowWidth:sysInfo.windowWidth,
+     });
+    
+    console.log(sysInfo);
+
+    let date = new Date();
+    let year = date.getFullYear();
 
     if(options.type == 'default'){
       that.setData({
         pulldownIconHidden: false,
         searchFormHidden: true,
-        serarchFormCancelHidden: false,
+        searchFormCancelHidden: false,
         title:'相册',
         apiPath:'/name/',
+        year: year,
       });
       that.getFloraData();
     }else if(options.type == 'searchAll')
@@ -297,6 +334,7 @@ Page({
         searchFormCancelHidden: true,
         title : '查找',
         apiPath:'/all/name/',
+        year:'',
       });
     }else{
       console.log('wrong type');
@@ -337,11 +375,11 @@ Page({
    */
   onPullDownRefresh: function () {
     //console.log("pull down");
-    var that = this;
+    /*var that = this;
     if(that.data.pulldownIconHidden != true){
       that.showSearchForm();
     }
-    wx.stopPullDownRefresh();
+    wx.stopPullDownRefresh();*/
   },
 
   /**
@@ -349,6 +387,8 @@ Page({
    */
   onReachBottom: function () {
     var that = this;
+    if (!that.data.searchFormHidden) return;
+
     if (that.data.hasMoreData && that.data.paginated) {
       //console.log("send flora request")
       that.getFloraData();

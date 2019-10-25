@@ -1,17 +1,4 @@
 /* pages/index/login.wxss */
-.header {
-    margin: 90rpx 0 90rpx 50rpx;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-    width: 650rpx;
-    height: 300rpx;
-    line-height: 450rpx;
-}
- 
-.header image {
-    width: 200rpx;
-    height: 200rpx;
-}
  
 .content {
     margin-left: 50rpx;
@@ -60,27 +47,8 @@
     height:20rpx;
 }
 
-
 .avatar_item>view{
   font-size: 30rpx;
   margin-top: 15rpx;
 }
 
-.widgets__item{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: #FFFFFF;
-    overflow: hidden;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-.widgets__line{
-    content: " ";
-    position: absolute;
-    left: 20px;
-    bottom: 0;
-    right: 20px;
-    height: 1rpx;
-    background-color: #DFDFDF;
-}

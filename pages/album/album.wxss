@@ -3,8 +3,6 @@
     text-align: center;
 }
 
-.swiperContainer{position: relative;}
-
 .icons{
     float: right;
     margin: 5px;
@@ -24,4 +22,28 @@
   flex-wrap: wrap;
 }
 
+
+.grid.grid-square > view {
+  margin-right: 5rpx;
+  margin-bottom: 5rpx;
+  border-radius: 6rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.grid.col-3.grid-square > view {
+  /*padding-bottom: calc((100% - 40rpx)/3);*/
+  /*height: 0;*/
+  /*height: calc((100% - 40rpx)/3);*/
+  width: calc((100% - 20rpx)/3);
+}
+
+.grid.grid-square >view> image{
+  width:100%;
+  /*position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;*/
+}
 

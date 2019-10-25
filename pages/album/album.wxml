@@ -10,35 +10,53 @@ var concat = function(flora) {
 module.exports.concat = concat;
 </wxs>
 
-<view class="page">
-    <view class="page__hd_small">
-      <view>
-        <image src="../../image/pulldown.png" class="icons" background-size="cover" hidden="{{pulldownIconHidden}}" bindtap='showSearchForm'></image>
-        <text class="page__title">{{title}}</text>
-        <text class="page__desc">{{species_count+'种兰花，'+photo_count+'张照片。'}}</text>
-      </view>
-
-      <view hidden="{{searchFormHidden}}">
-        <form catchsubmit="searchByName">
-          <view class="section">
-            <input name="input" placeholder="请在这里输入要查找的名字" value="{{cachedName}}"/>
-            <button type= "primary" formType="submit">确定</button>
-            <button bindtap='closeSearchForm'hidden="{{searchFormCancelHidden}}">返回</button>
+<view class='margin-top-xs padding bg-white'>
+          <view class='flex justify-between' >
+              <view>
+                  <view class="text-xxl">{{title}}</view>
+                  <view class="text-df text-grey">{{species_count+'种兰花，'+photo_count+'张照片。'}}</view>
+              </view>
+              <view>
+                  <button class='cu-btn icon'  wx-if='{{!pulldownIconHidden}}' bindtap='showSearchForm'>
+                    <text class='icon-search text-xxl'></text>
+                  </button>              
+              </view>
           </view>
-        </form>
-      </view>
-    </view>
+          <view class='margin-top' wx-if="{{!searchFormHidden}}">
+                <form catchsubmit="searchByName">
+                    <view class='margin-top-sm margin-bottom-sm'>
+                        <input name="input" placeholder="请在这里输入要查找的名字"  value="{{cachedName}}"/>
+                    </view>
+                    <button type= "primary" formType="submit">确定</button>
+                    <button bindtap='closeSearchForm' hidden="{{searchFormCancelHidden}}">返回</button>
+                </form>
+          </view> 
+</view>
 
-    <view class="section section_gap">
-      <view class="section" wx:for="{{flora_by_month}}" wx:for-item="flora_of_month"  wx:for-index = "idx">
-          <text class="page__desc">{{flora_of_month.year}}年{{flora_of_month.month+1}}月</text>
-          <view class="image-list">
-          <block wx:for="{{flora_of_month.flora}}" wx:key="id">
-                 <image style="width: {{(sysW-20)/3-2}}px; height:{{(sysW-20)/3-2}}px; padding:0 1px" src= "{{url_helper_1.concat(item)}}" mode="aspectFill" data-idx="{{idx}}" data-subidx="{{index}}" bindtap='viewImage' bindlongpress='bindLongPress' bindload='bindImgLoad'/>
-          </block>
+<view class='padding-top padding-left padding-right' wx-if='{{searchFormHidden}}'>
+   <picker wx:if='{{year}}' mode="date"  fields='year'  value="{{year}}"  bindchange="bindStartTimeChange">
+                  <view class>
+                      <text class='text-lg'>{{year}}年</text>
+                      <text class='text-df text-grey'>  {{year_species_count}}种兰花，{{year_count}}张照片</text>
+                  </view>
+        </picker> 
+</view>
+
+    
+<view class="bg-white padding-left padding-right">
+      <view class="margin-top-xs" wx:for="{{flora_by_month}}" wx:for-item="flora_of_month"  wx:for-index = "idx" wx:key>
+          <text class="text-df text-grey">{{flora_of_month.year}}年{{flora_of_month.month+1}}月</text>
+          <!--view class='grid col-3 grid-square'>
+              <view  wx:for="{{flora_of_month.flora}}" wx:key >
+                  <image src= "{{url_helper_1.concat(item)}}" mode="aspectFill" data-idx="{{idx}}" data-subidx="{{index}}" bindtap='viewImage' bindlongpress='bindLongPress' bindload='bindImgLoad'/>
+              </view>
+          </view-->
+          <view class="flex flex-wrap">
+              <view wx:for="{{flora_of_month.flora}}" wx:key="id">
+                 <image style="width: 225rpx; height:225rpx; padding:0 1rpx" src= "{{item.thumbUrl}}" mode="aspectFill" data-idx="{{idx}}" data-subidx="{{index}}" bindtap='viewImage' bindlongpress='bindLongPress' bindload='bindImgLoad'/>
+              </view>
           </view>
       </view>
-    </view>
 </view>
 
 

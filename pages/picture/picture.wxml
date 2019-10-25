@@ -1,32 +1,43 @@
-<view class="pages">
-    <view class="page__hd_small" bindlongpress='showModifyForm'>
-        <image src="../../image/save.png" class="icons" background-size="cover" bindtap='savePhoto'></image>
-        <text class="page__title" >{{flora.name}}</text>
-        <text class="page__title2" >{{family + ' '+ genus + ' ' +speciesLatin + ' ' +genusLatin +'\n'}}</text>
-        <text class="page__desc">{{flora.created_time}}</text>
-
-        <form  class="{{showModifyForm?'':'hide'}}" catchsubmit="formSubmit">
-          <view class="input">
-            <input name="input" placeholder="请在这里输入要修改的名字" value="{{cachedName}}"/>
-            <button type= "primary" formType="submit">确定</button>
-            <button bindtap='cacelModifyForm'>取消</button>
-          </view>
-        </form>
+<view id='text-area' class="padding-lr bg-white margin-top-xs margin-bottom-xs" bindlongpress='showModifyForm' hidden='{{!showTitle}}'>
+    <view class='flex justify-between align-top'>
         <view>
-        <text class="{{showStatus?'':'hide'}}" >修改失败了</text>
+            <view class="text-xl" >{{flora.name}}</view>
+            <view class="text-df" >{{family + ' '+ genus + ' ' +genusLatin + ' ' +speciesLatin +'\n'}}</view> 
+            <view class="text-df text-grey">{{flora.created_time}}</view>
+        </view>
+        <view class='margin-right'>
+            <text class='icon-down text-xxl' bindtap='savePhoto'></text>
+            <!--image src="../../image/save.png" class="icons" background-size="cover" bindtap='savePhoto'></image-->
         </view>
     </view>
 
-    <view class="section section_gap">
-      <!--scroll-view class="photo_container" scroll-x="true" scroll-y="true" data-time="{{lastTapTime}}"  bindtap='doubleClick' bindtouchstart='touchstartCallback' bindtouchmove='touchmoveCallback'-->
-      <!--scroll-view class="photo_container" scroll-x="true" data-time="{{lastTapTime}}"  bindtap='doubleClick' bindtouchstart='touchstartCallback' bindtouchmove='touchmoveCallback'-->
-      <movable-area style= "width:{{baseWidth}}rpx; height:{{baseHeight}}rpx">
-        <movable-view style= "width:{{baseWidth}}rpx; height:{{baseHeight}}rpx" direction="all" scale="true" scale-value="{{scale}}" animation="false" out-of-bounds="true" data-time="{{lastTapTime}}"  bindtap='doubleClick'>
-          <image class="photo_slide_left" src="../../image/left.png" style="top:{{baseHeight/2}}rpx; left:0rpx" data-direction="left" hidden="{{!showLeftArrow}}" bindtap='slidePhoto'/>        
-          <image class="photo" src= "{{flora.url}}" bindload='loadPhoto' style="width: {{ baseWidth }}rpx; height: {{ baseHeight}}rpx" />
-          <image class="photo_slide_right" src="../../image/right.png" style="top:{{baseHeight/2}}rpx; left:{{ baseWidth - 40}}rpx" data-direction="right" hidden="{{!showLeftArrow}}" bindtap='slidePhoto'/>  
-        </movable-view>
-      </movable-area>
-      <!--/scroll-view-->
+    <form  class="{{showModifyForm?'':'hide'}}" catchsubmit="formSubmit">
+            <view class='margin-top-sm margin-bottom-sm'> 新名字:
+                <input name="input" placeholder="请在这里输入要修改的名字" value="{{cachedName}}"/>
+            </view>
+            <button type= "primary" formType="submit">确定</button>
+            <button bindtap='cacelModifyForm'>取消</button>
+    </form>
+
+    <view>
+            <text class="{{showStatus?'':'hide'}}" >修改失败了</text>
     </view>
 </view>
+
+<view class="padding-lr bg-white margin-top-xs margin-bottom-xs"  bindtouchstart='touchStart' bindtouchmove='touchMove' bindtouchend='touchEnd'>
+      <movable-area style= "width:690rpx; height:960rpx">
+        <movable-view class='flex justify-center align-center bg-white' style= "width:690rpx; height:960rpx" direction="all" scale="true" scale-value="{{scale}}"  data-time="{{lastTapTime}}"  bindtap='doubleClick' bindscale='onScale'> 
+          <image src= "{{flora.url}}"  mode='widthFix' style='width:100%; padding:0' bindload='loadPhoto' />
+        </movable-view>
+      </movable-area>
+</view>
+
+<!--view class="padding-lr bg-white margin-top-xs margin-bottom-xs" bindtouchstart='touchStart' bindtouchmove='touchMove' bindtouchend='touchEnd'>
+      <movable-area style= "width:{{baseWidth}}rpx; height:{{baseHeight}}rpx">
+        <movable-view class='flex justify-center align-center' style= "width:{{baseWidth}}rpx; height:{{baseHeight}}rpx" direction="all" scale="true" scale-value="{{scale}}" data-time="{{lastTapTime}}"  bindtap='doubleClick' bindscale='onScale'>
+   
+          <image src= "{{flora.url}}" bindload='loadPhoto' style='width:100%' mode='widthFix' />
+
+        </movable-view>
+      </movable-area>
+</view-->

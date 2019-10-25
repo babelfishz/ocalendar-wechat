@@ -1,34 +1,31 @@
 <!--index.wxml-->
 
 <view class="index">
-    <view class="head" >
-        <view class="title">{{currentAlbumName}}的兰花日历</view>
+    <view class="head" bindtap='bindUserInfoTap'>
+        <view class="title">兰花日历</view>
         <view class="desc">{{motto}}</view>
     </view>
 
     <view class="body">
         <view class="widgets__item">
             <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindUploadTap">
-                    <text class="widgets__info-name">记录</text>
-                    <image class="widgets__info-img" src="../../image/camera.png" background-size="cover" />
+                    <text class="widgets__info-name text-xl">记录</text>
+                    <text class='icon-cameraadd text-sl'></text>
+                    <!--image class="widgets__info-img" src="../../image/camera.png" background-size="cover" /-->
             </view>
         </view>
         <view class="widgets__item">
             <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindAlbumTap">
-                    <text class="widgets__info-name">回忆</text>
-                    <image class="widgets__info-img" src="../../image/remember.png" background-size="cover" />
+                    <text class="widgets__info-name text-xl">回顾</text>
+                    <text class='icon-evaluate text-sl'></text>
+                    <!--image class="widgets__info-img" src="../../image/remember.png" background-size="cover" /-->
             </view>
         </view>
-        <!--view class="widgets__item">
-            <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindPeoplesTap">
-                    <text class="widgets__info-name">目标</text>
-                    <image class="widgets__info-img" src="../../image/orchid.png" background-size="cover" />
-            </view>
-        </view-->
         <view class="widgets__item">
             <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindCalendarTap">
-                    <text class="widgets__info-name">追寻</text>
-                    <image class="widgets__info-img" src="../../image/target.png" background-size="cover" />
+                    <text class="widgets__info-name text-xl">追寻</text>
+                    <text class='icon-activity text-sl'></text>
+                    <!--image class="widgets__info-img" src="../../image/target.png" background-size="cover" /-->
             </view>
         </view>
     </view>

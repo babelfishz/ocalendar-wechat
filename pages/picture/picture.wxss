@@ -3,41 +3,8 @@
     display:none
 }
 
-.pages {
-  background-color: #fbf9fe;
-  height: 100%;
-  overflow: scroll;
-}
-
-.input{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.icons{
-    float: right;
-    margin: 5px;
-    width: 20px;
-    height: 20px;
-}
-
-.photo_container{
-  position: relative;
-  overflow: auto;
-}
-
-.photo{
-  transform-origin: 50% 50% 0%;
-}
-
-.photo_slide_right{
-  position: absolute;
-  width: 40rpx;
-  height:40rpx;
-}
-
-.photo_slide_left{
-  position: absolute;
-  width: 40rpx;
-  height:40rpx;
+.before-load {
+  width: 0;
+  height: 0;
+  opacity: 0;
 }

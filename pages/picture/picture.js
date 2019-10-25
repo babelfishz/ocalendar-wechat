@@ -22,6 +22,7 @@ Page({
       baseHeight: null,
       scale:1,
 
+      showTitle:true,
       showModifyForm: false,
       cachedName:'',
       Loading:false,
@@ -94,7 +95,7 @@ Page({
     wx.request({
       url: url,
       success: function (res) {
-        //console.log(res.data);
+        //console.log('orchid',res);
         var data = res.data;
         if (data) {
           that.setData({ 
@@ -153,7 +154,67 @@ Page({
     })
   },
 
-  slidePhoto: function (e) {
+  // 触摸开始
+  touchStart(e) {
+    console.log('touch move', this.data.scale);
+    this.setData({
+      touchStartX: e.touches[0].pageX,
+      touchStartY: e.touches[0].pageY,
+    })
+  },
+
+  // 计算方向
+  touchMove(e) {
+    console.log('touch move',this.data.scale);
+    let turn = "";
+    if ( (e.touches[0].pageX - this.data.touchStartX > 50) && (Math.abs(e.touches[0].pageY - this.data.touchStartY) < 50)) {      //右滑
+      turn = "left";
+    } else if ((e.touches[0].pageX - this.data.touchStartX < -50) && (Math.abs(e.touches[0].pageY - this.data.touchStartY) <50)) {   //左滑
+      turn = "right";
+    }
+    this.setData({
+      touchDirection: this.data.scale==1?turn:"",
+    })
+  },
+
+  // 滚动图片
+  touchEnd(e) {
+
+    var that = this;
+    var index = Number(that.data.index_of_prevPage);
+    var subidx = Number(that.data.subidx_of_prevPage);
+
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    var flora_by_month = prevPage.data.flora_by_month;
+
+    if (this.data.touchDirection == 'left') {
+      if (subidx == 0) {
+        if (index == 0) { }
+        else { index--; subidx = flora_by_month[index].flora.length - 1; };
+      } else {
+        subidx--;
+      }
+    } else if(this.data.touchDirection == 'right'){
+      if (subidx == flora_by_month[index].flora.length - 1) {
+        if (index == flora_by_month.length - 1) { }
+        else { index++; subidx = 0; };
+      } else {
+        subidx++;
+      }
+    }
+    this.setData({
+      touchDirection: null
+    })
+
+    var options = new Object();
+    options.idx = index;
+    options.subidx = subidx;
+
+    that.onLoad(options);
+  },
+
+  /*slidePhoto: function (e) {
 
     var that = this;
     var index = Number(that.data.index_of_prevPage);
@@ -187,7 +248,11 @@ Page({
     options.subidx = subidx;
 
     that.onLoad(options);
-  },
+  },*/
+
+  //loadPhoto: function (e) {
+    /*wx.hideLoading();*/
+  //},
 
   loadPhoto:function(e){
     //console.log(e);
@@ -197,16 +262,44 @@ Page({
     var photoHeight = e.detail.height;
     var ratio = photoWidth/photoHeight;
 
-    var baseWidth = 698;
-    var baseHeight = baseWidth/ratio;
+    if(photoWidth > photoHeight){
+      that.setData({
+        baseWidth: 690,
+        baseHeight: 690/ratio,
+      })
+    }else{
+      that.setData({
+        baseWidth: 960*ratio,
+        baseHeight: 960,
+      })
+    }
 
+    //var baseWidth = 698;
+    /*var baseWidth = 660;
+    var baseHeight = baseWidth/ratio;*/
 
-    that.setData({
-      baseWidth: baseWidth,
-      baseHeight:baseHeight,
-      showLeftArrow:true,
-      showRightArrow:true,
-    })
+    /*let query = wx.createSelectorQuery();
+    query.select('#text-area').boundingClientRect();
+    query.exec((res) => {
+      let screenHeight = wx.getSystemInfoSync().windowHeight;
+      let screenWidth =wx.getSystemInfoSync().windowWidth;
+
+      let baseHeight = (screenHeight - res[0].height - 5) * (750 / screenWidth);
+      let baseWidth = baseHeight * ratio;
+      console.log(baseHeight,baseWidth);
+
+      that.setData({
+        baseWidth: baseWidth,
+        baseHeight: baseHeight,
+        showLeftArrow: true,
+        showRightArrow: true,
+      })
+    });*/
+},
+
+  onScale:function(e){
+    //console.log(e);
+    this.data.scale = e.detail.scale;
   },
 
   doubleClick: function (e) {
@@ -217,7 +310,9 @@ Page({
     var that = this;
     if (curTime - lastTime > 0) {
       if (curTime - lastTime < 300) {
-        that.setData({scale:1});
+        that.setData({ scale: 1 });
+        console.log("double clicked!");
+        console.log(that.data.scale);
       }
     }
     this.setData({
@@ -243,17 +338,25 @@ Page({
 
       flora.id = flora_data.id;
       flora.url = app.globalData.backendUrl + "/" + flora_data.filePath + flora_data.fileName;
+      //flora.thumbUrl = app.globalData.backendUrl + "/" + flora_data.filePath + flora_data.thumbnailFileName;
+      //console.log(flora.thumbUrl);
       flora.name = flora_data.floraName ? flora_data.floraName:'';
       flora.created_time = flora_data.dateTimeDigitized?flora_data.dateTimeDigitized:'';
-
-      //console.log(flora.name);
 
       var that = this;
       that.setData({
         flora: flora,
         index_of_prevPage: index,
-        subidx_of_prevPage: current
+        subidx_of_prevPage: current,
+        showTitle:true,
+        loadFinish:false,
+        baseHeight:0,
+        baseWidth:0,
         });
+
+      /*wx.showLoading({
+        title: '正在载入',
+      })*/
 
       if(flora.name) {that.getOrchidData(flora)};
   },
@@ -269,7 +372,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**

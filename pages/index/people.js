@@ -129,6 +129,8 @@ Page({
         var peoples = res.data.peoples;
         that.setData({ users: peoples });
 
+        //console.log(res.data);
+
         if (res.data.hereAmI == true) {
           that.setData({
             authorizationHidden: true,

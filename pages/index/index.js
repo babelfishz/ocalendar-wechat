@@ -59,6 +59,15 @@ Page({
     }
   },
   
+  bindUserInfoTap:function()
+  {
+    var that = this;
+    if (!getApp().globalData.myUserInfo) {
+      //console.log("retry");
+      that.getMyUserId();
+    }
+  },
+
   getMyUserId: function () {
     var that = this;
     wx.login({

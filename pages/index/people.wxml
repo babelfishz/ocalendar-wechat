@@ -1,14 +1,15 @@
 <!--pages/index/login.wxml-->
-<view class="widgets__item">
-    <view class="page__hd_small">
-        <text class="page__title">浏览</text>
-        <text class="page__desc">点击图标浏览其他用户的相册。</text>
-    </view>
 
+<view class='padding margin-top-xs bg-white'>
+    <view class='text-xxl'>浏览</view>
+    <view class='text-df text-grey'>点击图标浏览其他用户的相册。</view>
+</view>
+
+<view class='padding bg-white'>
     <view  class='avatar_list'>      
       <view wx:for="{{users}}" wx:for-index= 'idx'>        
-          <view class='avatar_item'>
-                <image class= 'avatar' src="{{item.avatarUrl}}" bindtap="bindChooseUserTap" data-index='{{idx}}'></image>
+          <view class='avatar_item '>
+                <image class= 'avatar radius' src="{{item.avatarUrl}}" bindtap="bindChooseUserTap" data-index='{{idx}}'></image>
                 <image class ='changed_image' src='../../image/green_dot.png' hidden="{{!photoCountChanged[idx]}}"> </image>
                 <view>{{item.nickName}}</view>
             </view>        
@@ -16,29 +17,18 @@
     </view>
 </view>
 
-<!--view class="widgets__item">
-  <view class="page__hd_small" bindtap="bindSwitchBackTap">
-        <text class="page__title">返回</text>
-        <text class="page__desc">点击返回自己的兰花日历。</text>
-  </view>
-</view-->
+<view class='padding margin-top bg-white'>
+    <view class='text-xxl'>分享</view>
+    <view class='text-df text-grey'>您的相册将对其他用户可见。</view>
+</view>
 
-<view class="widgets__item">
-  <view class="page__hd_small">
-        <text class="page__title">分享</text>
-        <text class="page__desc">您的相册将对其他用户可见。</text>
-  </view>
-
+<view class='padding bg-white'>
   <view wx:if="{{canIUse}}">
     <view class='content' hidden = "{{authorizationHidden}}">
         <view>申请获取以下权限:</view>
-        <view class='page__desc'>
-          <text>获得你的公开信息(昵称，头像等)</text>
-          <text>允许朋友查看你的日历</text>
-        </view>
-        <button class='bottom' type='default' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindLoginTap">
-        分享
-        </button>
+        <view class='text-df'>获得你的公开信息(昵称，头像等)</view>
+        <view class='text-df'>允许朋友查看你的日历</view>
+        <button class='bottom' type='default' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindLoginTap">分享</button>
     </view>
 
     <view class='content' hidden = "{{!authorizationHidden}}">
@@ -50,3 +40,6 @@
 
   <view wx:else>请升级微信版本</view>
 </view>
+
+
+

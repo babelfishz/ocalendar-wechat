@@ -1,8 +1,8 @@
 // pages/Calendar/calendar.js
-var time = 0;
-var touchDot = 0;//触摸时的原点
-var interval = "";
-var flag_hd = true;
+//var time = 0;
+//var touchDot = 0;//触摸时的原点
+//var interval = "";
+//var flag_hd = true;
 
 Page({
 
@@ -17,6 +17,9 @@ Page({
     weekArr: ['日', '一', '二', '三', '四', '五', '六'],
     year: null,
     currentDate:'',
+
+    leftArrow:'<',
+    rightArrow:'>',
 
     myFloras: [],
     imgList: [],
@@ -69,6 +72,30 @@ Page({
     time = 0;
   },
 
+  slideLeft:function(){
+    console.log("slide left");
+    var that = this;
+    var currentDate = that.data.currentDate;
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    that.setData({ currentDate: currentDate });
+
+    that.dataTime();
+    that.refreshCalendar();
+    that.getFloraOfMonth(that.data.currentDate.getMonth() + 1);
+  },
+
+  slideRight: function () {
+    console.log("slide right");
+    var that = this;
+    var currentDate = that.data.currentDate;
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    that.setData({ currentDate: currentDate });
+
+    that.dataTime();
+    that.refreshCalendar();
+    that.getFloraOfMonth(that.data.currentDate.getMonth() + 1);
+  },
+
   getFloraOfMonth(month){
     var that = this;
     var app = getApp();
@@ -77,6 +104,7 @@ Page({
 
     //console.log(url);
     //console.log(userId);
+    that.setData({ imgList: [] });
 
     wx.request({
       url: url,
@@ -156,10 +184,9 @@ Page({
 
     var res = wx.getSystemInfoSync();
     this.setData({
-      sysW: res.windowHeight / 12,//根据屏幕宽度变化自动设置宽度
+      //sysW: res.windowHeight / 12,//根据屏幕宽度变化自动设置宽度
+      sysW: (750 - 20 *2)/7,
       marLet: this.data.firstDay,
-      //arr: this.data.arr,
-      //arr:arr,
       year: this.data.year,
       getDate: this.data.getDate,
       month: this.data.month
@@ -167,7 +194,7 @@ Page({
   },
 
   showMap:function(e){
-    console.log(e);
+    //console.log(e);
     var index = e.currentTarget.dataset.index;
     var that = this;
     var flora = that.data.imgList[index];
@@ -225,9 +252,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    flag_hd = true;    //重新进入页面之后，可以再次执行滑动切换页面代码
-    clearInterval(interval); // 清除setInterval
-    time = 0;
+    //flag_hd = true;    //重新进入页面之后，可以再次执行滑动切换页面代码
+    //clearInterval(interval); // 清除setInterval
+    //time = 0;
   },
 
   /**

@@ -1,47 +1,50 @@
 <!--pages/upload/upload.wxml-->
-<view class="page">
-  <view class="page__hd_small">
-        <text class="page__title">记录</text>
-        <text class="page__desc">上传到某个地方。</text>
-  </view>
-  
-  <view class="page__bd">
-        <form class="page__bd" catchsubmit="formSubmit">
-        <view class="{{showChooseImageArea?'':'hide'}}">
-          <view class="addImv">
+
+<view class='padding bg-white margin-top margin-bottom'>
+        <view class='text-xxl'>记录</view>
+        <view class='text-df text-grey'>上传到某个地方。</view>
+</view>
+
+<view wx-if='{{showChooseImageArea}}'>    
+      <view class="addImv">
             <!--这个是已经选好的图片-->
             <block wx:for="{{imgArr}}" wx:key="key">
               <view class="upFile" bindtap="showImage" style="border-radius: 5px" data-id="{{index}}">
                 <image class="itemImv" src="{{item}}" mode="aspectFill"></image>
-                <image class="closeImv" src="../../image/delete.png" mode="aspectFill" catchtap="deleteImv"  data-id="{{index}}"></image>
+                <view class="closeImv bg-red" catchtap="deleteImv"  data-id="{{index}}">
+                    <text class='icon-close'></text>
+                </view>
+                <!--image class="closeImv" src="../../image/delete.png" mode="aspectFill" catchtap="deleteImv"  data-id="{{index}}"></image-->
               </view>
             </block>
             
           <!--这个是选择图片-->
             <view class="chooseView" bindtap="chooseImage" style="border-radius: 5px" wx:if="{{chooseViewShow}}">
-              <image class="chooseImv" src="../../image/addImage.png"></image>
+              <text class='icon-cameraadd text-xxl text-grey'></text>
+              <!--image class="chooseImv" src="../../image/addImage.png"></image-->
             </view>
-          </view>
-          
-          <view class="{{showInputName?'':'hide'}}">
-              <view class="section__title">名字</view>
-              <input name="input" placeholder="请在这里输入" />
-          </view>
+      </view>
 
+      <form catchsubmit="formSubmit">
+          <view class='padding-xs bg-white'></view>
+          <view wx:if="{{showInputName}}" class="padding">
+              <view class="text-lg">名字</view>
+              <view class='text-lg bg-white padding-sm radius'>
+                  <input name="input" placeholder="请在这里输入" />
+              </view>
           </view>
-
-
-          <view class="btn-area">
-            <view class="{{showUploadStatus?'hide':''}}">
-            <button type= "primary" loading="{{loading}}" formType="submit">上传</button>
-            </view>
-            <view class="{{(showUploadStatus && success)?'':'hide'}}">
-            <text class="page__desc">记录成功了。</text>
-            </view>
-            <view class="{{(showUploadStatus && !success)?'':'hide'}}">
-            <text class="page__desc">记录失败了，请重新选择上传。</text>
-            </view>
+          <view class='padding'> 
+              <button type= "primary" loading="{{loading}}" formType="submit">上传</button>
           </view>
-        </form>
-  </view>
+      </form>
+      
 </view>
+
+<view wx:if='{{showUploadStatus && success}}' class='padding text-df'>
+    记录成功了。
+</view>
+
+<view wx:if='{{showUploadStatus && !success}}' class='padding text-df'>
+    记录失败了，请重新选择上传。
+</view>
+

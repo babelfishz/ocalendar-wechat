@@ -1,45 +1,37 @@
 <!--pages/Calendar/calendar.wxml-->
-<view bindtouchstart="touchStart" bindtouchend="touchEnd">
-<view class='box1' style='width: {{ sysW * 7 }}px'>
-  <view class='dateBox'>{{ year }} - {{ month}}</view>
-  <block wx:for='{{ weekArr }}'>
-    <view style='width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;'>{{ item }}</view>
-  </block>
-  <block wx:for='{{ arr }}'>
-    <view style='{{ index == 0 ? "margin-left:" + sysW * marLet + "px;" : "" }}width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;' class='{{ item ==  getDate ? "dateOn" : ""}}'>{{ item }}</view>
-  </block>
+
+<view class='box1' style='width: {{ sysW * 7 }}rpx' >
+    <view class ='dateBox'>
+        <view>{{ year }} - {{ month}}</view>
+        <view class ='left-arrow' bindtap='slideLeft'>{{leftArrow}}</view>
+        <view class ='right-arrow' bindtap='slideRight'> {{rightArrow}}</view>
+    </view>
+
+    <block wx:for='{{ weekArr }}' wx:key>
+        <view style='width: {{ sysW }}rpx; height: {{ sysW }}rpx; line-height: {{ sysW }}rpx'>{{ item }}</view>
+    </block>
+
+    <block wx:for='{{ arr }}' wx:key>
+        <view style='{{ index == 0 ? "margin-left:" + sysW * marLet + "rpx;" : "" }}width: {{ sysW }}rpx; height: {{ sysW }}rpx; line-height: {{ sysW }}rpx;' class='{{ item ==  getDate ? "dateOn" : ""}}'>{{ item }}</view>
+    </block>
+    
 </view>
 
-<view class="box1" style='width: {{ sysW * 7 }}px'> 
-  <block wx:for="{{imgList}}" wx:key="*this">
-              <image class='{{ item.isMyPhoto == true ?  "" : "target"}}' style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px; padding:0  1px " src= "{{item.url}}" mode="aspectFill" data-index="{{index}}" bindtap='showMap'/>
-  </block>
-
+<view class="padding-left padding-right"> 
+    <block wx:for="{{imgList}}" wx:key>
+        <image class='{{ item.isMyPhoto == true ?  "" : "target"}}' style="width: 225rpx; height: 225rpx; padding:0  1px " src= "{{item.url}}" mode="aspectFill" data-index="{{index}}" bindtap='showMap'/>
+    </block>
 </view>
 
 <view class="b1" hidden="{{hiddenFlag}}">
-
-		<!--view class="b2">
-      <view class="b2_text">
-        <text>{{floraName}}\n</text>
-        <view class= 'page__desc'><text>{{floraCapturedTime}}</text></view>
-      </view>
-			<image src='{{floraUrl}}' mode='widthFix'/>
-		</view>
-		<view class="t_w">
-		   <cover-view class="t_image" bindtap="closeMask">
-		     <cover-image  src="../../image/delete.png"></cover-image>
-		  </cover-view>
-		</view-->
-
     <view class="b2">
       <view class='b2_image'>
-          <image src='{{floraUrl}}' mode='aspectFill' style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px; padding:0  1px " />
+          <image src='{{floraUrl}}' mode='aspectFill' style="width: 230rpx; height: 230rpx; padding:0  1px " />
       </view>
       <view class="b2_text">
-        <text>{{floraName}}\n</text>
-        <view class= 'page__desc'><text>{{floraCapturedTime}}</text></view>
-        <view class= 'page__desc'><text>Photo by {{floraPhotoby}}</text></view>
+        {{floraName}}
+        <view class= 'text-df text-grey margin-top-sm'>{{floraCapturedTime}}</view>
+        <view class= 'text-df text-grey'>Photo by {{floraPhotoby}}</view>
       </view>
 		</view>
 		<view class="t_w">
@@ -47,16 +39,4 @@
 		     <cover-image  src="../../image/delete.png"></cover-image>
 		  </cover-view>
 		</view>
-
-    <!--view class='flex-wrp-row item' bindtap="closeMask">
-      <view class='item-left flex-wrp-row'>
-        <image src="{{floraUrl}}" style="width: {{ sysW*7/3-2 }}px; height: {{ sysW*7/3-2}}px" mode='aspectFill'/>
-        <view><text>{{floraName}}</text></view>
-        <view><text>{{floraName}}</text></view>
-      </view>
-      <view class='item-right flex-wrp-row'>
-         <text>{{floraName}}</text>
-      </view>
-    </view-->
-</view>
 </view>
