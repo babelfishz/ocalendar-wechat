@@ -311,7 +311,7 @@ Page({
       windowWidth:sysInfo.windowWidth,
      });
     
-    console.log(sysInfo);
+    //console.log(sysInfo);
 
     let date = new Date();
     let year = date.getFullYear();
@@ -336,6 +336,17 @@ Page({
         apiPath:'/all/name/',
         year:'',
       });
+    }else if(options.type =='searchByName'){
+      that.setData({
+        pulldownIconHidden: true,
+        searchFormHidden: true,
+        searchFormCancelHidden: false,
+        title : options.name,
+        apiPath:'/all/name/',
+        year:'',
+        paginated:false,
+      });
+      that.getFloraDataByName(options.name);
     }else{
       console.log('wrong type');
     }

@@ -25,7 +25,7 @@
 
 <view class="b1" hidden="{{hiddenFlag}}">
     <view class="b2">
-      <view class='b2_image'>
+      <view class='b2_image' bindtap="bindThumbTap">
           <image src='{{floraUrl}}' mode='aspectFill' style="width: 230rpx; height: 230rpx; padding:0  1px " />
       </view>
       <view class="b2_text">

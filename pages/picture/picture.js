@@ -95,14 +95,16 @@ Page({
     wx.request({
       url: url,
       success: function (res) {
-        //console.log('orchid',res);
+        console.log('orchid',res);
         var data = res.data;
         if (data) {
           that.setData({ 
             genus: data.genus,
             family: data.family,
             genusLatin: data.genusLatin,
-            speciesLatin: data.speciesLatin 
+            speciesLatin: data.speciesLatin, 
+            description: data.description,
+            distribution:data.distribution,
           });
         }
         else
@@ -116,6 +118,12 @@ Page({
         }
       }
     });
+  },
+
+  showDetail:function(e){
+      wx.navigateTo({
+        url: "./detail",
+      })
   },
 
   savePhoto:function(e)

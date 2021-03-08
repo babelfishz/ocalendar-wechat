@@ -59,3 +59,9 @@
     height:40rpx;
 }
 
+.footer{
+    font-size: 16px;
+    padding-top: 20px;
+    padding-right: 40px;
+    float: right;
+}

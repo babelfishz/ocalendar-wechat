@@ -28,14 +28,28 @@
                     <!--image class="widgets__info-img" src="../../image/target.png" background-size="cover" /-->
             </view>
         </view>
-    </view>
+        <view class="widgets__item">
+            <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindLoginTap">
+                    <text class="widgets__info-name text-xl">分享</text>
+                    <text class='icon-people text-sl'></text>
+                    <!--image class="widgets__info-img" src="../../image/target.png" background-size="cover" /-->
+            </view>
+        </view>
+        <view class="widgets__item">
+            <view id="view" class="widgets__info {{viewShow ? 'widgets__info_show' : ''}}" bindtap="bindSearchTap">
+                    <text class="widgets__info-name text-xl">资料</text>
+                    <text class='icon-search text-sl'></text>
+                    <!--image class="widgets__info-img" src="../../image/target.png" background-size="cover" /-->
+            </view>
+        </view>
+</view>
 
-    <view class="footer" bindtap="bindSearchTap">
+    <!--view class="footer" bindtap="bindSearchTap">
       <text>查找</text>
-    </view>    
-    <view class="footer" bindtap="bindLoginTap">
+    </view-->    
+    <!--view class="footer" bindtap="bindLoginTap">
       <text>分享</text>
-    </view>
+    </view-->
 
 
 </view>

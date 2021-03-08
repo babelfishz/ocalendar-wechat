@@ -13,7 +13,8 @@
 } 
 
 page {
-  background-color: #fbf9fe;
+  /*background-color: #fef9fe;*/
+  background-color:rgb(210, 247, 210);
   height: 100%;
 }
 

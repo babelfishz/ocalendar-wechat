@@ -228,6 +228,12 @@ Page({
     this.setData({ hiddenFlag: true })
   },
 
+  bindThumbTap:function(){
+    wx.navigateTo({
+      url: '../album/album?readWrite=false' + '&type=searchByName' + '&name=' + this.data.floraName
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

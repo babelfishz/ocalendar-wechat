@@ -1,0 +1,15 @@
+<!--pages/picture/detail.wxml-->
+<view class="padding-lr bg-white margin-top-xs margin-bottom-xs">  
+    <view>
+            <view class="text-xxl text-black" >{{flora.name}}</view>
+            <view class="text-df" >{{family + ' '+ genus + ' ' +genusLatin + ' ' +speciesLatin +'\n'}}</view> 
+    </view>
+    <view class="margin-top margin-bottom">
+            <view class="text-xl" >描述</view>
+            <text class="text-df" >{{description}}</text>
+    </view>
+    <view class="margin-top margin-bottom">
+            <view class="text-xl" >分布</view>
+            <text class="text-df" >{{distribution}}</text>
+    </view>
+</view>

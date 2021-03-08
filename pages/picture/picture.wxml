@@ -5,9 +5,10 @@
             <view class="text-df" >{{family + ' '+ genus + ' ' +genusLatin + ' ' +speciesLatin +'\n'}}</view> 
             <view class="text-df text-grey">{{flora.created_time}}</view>
         </view>
-        <view class='margin-right'>
+        <!--view class='margin-right'-->
+        <view>
+            <text class='icon-text text-xxl margin-right' bindtap='showDetail'></text>
             <text class='icon-down text-xxl' bindtap='savePhoto'></text>
-            <!--image src="../../image/save.png" class="icons" background-size="cover" bindtap='savePhoto'></image-->
         </view>
     </view>
 

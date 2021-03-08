@@ -7,12 +7,14 @@
     "pages/calendar/calendar",
     "pages/picture/picture",
     "pages/index/people",
-    "pages/calendar/map"
+    "pages/calendar/map",
+    "pages/picture/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "兰花日历",
     "navigationBarTextStyle": "black"
-  }
+  },
+  "sitemapLocation": "sitemap19.json"
 }

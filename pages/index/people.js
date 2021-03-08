@@ -36,6 +36,7 @@ Page({
       method: 'DELETE',
       success: function (res) {
         //console.log(res);
+        wx.setStorageSync('share_my_info', 'false');
         that.setData({
           authorizationHidden: false,
         })         
@@ -87,6 +88,7 @@ Page({
       method: 'POST',
       success: function (res) {
         //console.log(res);
+        wx.setStorageSync('share_my_info', 'true');
         that.setData({
           authorizationHidden:true,
           //resultHidden:false,
@@ -132,10 +134,12 @@ Page({
         //console.log(res.data);
 
         if (res.data.hereAmI == true) {
+          wx.setStorageSync('share_my_info', 'true');
           that.setData({
             authorizationHidden: true,
           });
         } else {
+          wx.setStorageSync('share_my_info', 'false');
           that.setData({
             authorizationHidden: false,
           })
@@ -168,6 +172,14 @@ Page({
   onLoad: function () {
     var that = this;
     that.getAllUserInfo();
+
+    /*wx.request({
+      url: 'https://www.ocalendar.com.cn/api/users/test',
+      method: 'GET',
+      success: function (res) {
+        console.log(res);
+      }
+    })*/ 
   },
 
 

@@ -65,6 +65,7 @@ Page({
     if (!getApp().globalData.myUserInfo) {
       //console.log("retry");
       that.getMyUserId();
+      //that.updateUserInfo();
     }
   },
 
@@ -88,15 +89,56 @@ Page({
           success: function (res) {
             //console.log(res);
             if (res.statusCode == 200) {
+              
               var userInfo = { userId: '', nickName: '', avatarUrl: '', city: '', province: '' };
               userInfo.userId = res.data;
+              
+              wx.getSetting({
+                complete: (res) => {
+                  if (res.authSetting['scope.userInfo']) {
+                    wx.getUserInfo({
+                      success: function(res) {
+                        //console.log(res.userInfo)
+                        userInfo.nickName = res.userInfo.nickName;
+                        userInfo.avatarUrl = res.userInfo.avatarUrl;
+                        userInfo.city = res.userInfo.city;
+                        userInfo.province = res.userInfo.province;
+
+                        wx.getStorage({
+                          key: 'share_my_info',
+                          success (res) {
+                            //console.log(res.data)
+                            if(res.data == 'true'){
+                              wx.request({
+                                url: app.globalData.backendUrl + app.globalData.userInfoPath,
+                                data: {
+                                  userId: userInfo.userId,
+                                  nickName: userInfo.nickName, 
+                                  avatarUrl: userInfo.avatarUrl,
+                                  province: userInfo.province,
+                                  city: userInfo.city,
+                                },
+                                method: 'POST',
+                                success: function (res) {
+                                  //console.log(res);
+                                }
+                              });
+                            }
+                          }
+                        })
+                      }
+                    })
+                  }
+                },
+              })
+
               getApp().globalData.myUserInfo = userInfo;
               getApp().globalData.currentUserInfo = userInfo;
               getApp().globalData.readWrite = true;
 
               that.setData({ motto: '行到水穷处，坐看云起时。'});
+              
             }
-            //getApp().getAllUserInfo();
             //console.log(getApp().globalData);
           },
           fail: function (res) {
@@ -106,6 +148,7 @@ Page({
       }
     })
   },
+ 
 
   onLoad: function () {
     var that = this;

@@ -28,11 +28,20 @@
       <form catchsubmit="formSubmit">
           <view class='padding-xs bg-white'></view>
           <view wx:if="{{showInputName}}" class="padding">
-              <view class="text-lg">名字</view>
+            <view class="text-lg">名字 ({{accuracy}}%)</view>
+             
+            <!--view class='flex justify-between' -->
               <view class='text-lg bg-white padding-sm radius'>
-                  <input name="input" placeholder="请在这里输入" />
+                  <input name="input" placeholder="请在这里输入" value="{{inputValue}}"/>
               </view>
+              <!--view>
+                  <button class='cu-btn icon' bindtap="classifyFlowers">
+                    <text class='icon-lightauto text-small'></text>
+                  </button>              
+              </view--> 
+            <!--/view-->
           </view>
+          
           <view class='padding'> 
               <button type= "primary" loading="{{loading}}" formType="submit">上传</button>
           </view>
@@ -42,9 +51,19 @@
 
 <view wx:if='{{showUploadStatus && success}}' class='padding text-df'>
     记录成功了。
+    <view class='margin-top'> 
+      <button type= "primary" bindtap="uploadAgain">确定</button>
+    </view>
 </view>
 
 <view wx:if='{{showUploadStatus && !success}}' class='padding text-df'>
     记录失败了，请重新选择上传。
+    <view class='margin-top'> 
+      <button type= "primary" bindtap="uploadAgain">确定</button>
+    </view>
+</view>
+
+<view>
+    <canvas style="width: 300px; height: 200px;" canvas-id="myCanvas" hidden="true"></canvas>
 </view>
 
