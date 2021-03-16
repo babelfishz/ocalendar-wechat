@@ -1,0 +1,33 @@
+<!--pages/index/search.wxml-->
+<view class='margin-top padding bg-white'>
+          <view class='flex justify-between' >
+                  <view class="text-xxl">本地查找</view>
+          </view>
+          <view class='margin-top'>
+                <form catchsubmit="searchLocalByName">
+                    <view class='margin-top-sm margin-bottom-sm'>
+                        <input name="input" placeholder="请在这里输入要查找的名字"  value=""/>
+                    </view>
+                    <button type= "primary" formType="submit">确定</button>
+                </form>
+        </view> 
+</view> 
+
+<view class='margin-top'>
+</view>
+
+<view class='margin-top padding bg-white'>
+          <view class='flex justify-between' >
+                  <view class="text-xxl">微博查找</view>
+          </view>
+          <view class='margin-top'>
+                <form catchsubmit="searchWeiboByName">
+                    <view class='margin-top-sm margin-bottom-sm'>
+                        <input name="input" placeholder="请在这里输入要查找的名字"  value=""/>
+                    </view>
+                    <button type= "primary" formType="submit">确定</button>
+                </form>
+          </view> 
+</view>
+
+

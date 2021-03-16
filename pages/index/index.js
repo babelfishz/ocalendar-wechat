@@ -53,8 +53,8 @@ Page({
   bindSearchTap:function(){
     if (getApp().globalData.myUserInfo) {
       wx.navigateTo({
-        //url: './search'
-        url: '../album/album?readWrite=false' + '&type=searchAll'
+        url: './search'
+        //url: '../album/album?readWrite=false' + '&type=searchAll'
       })
     }
   },
@@ -67,6 +67,13 @@ Page({
       that.getMyUserId();
       //that.updateUserInfo();
     }
+  },
+
+  searchWeb:function()
+  {
+    wx.navigateTo({
+      url: './search',
+    })
   },
 
   getMyUserId: function () {

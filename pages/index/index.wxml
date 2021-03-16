@@ -51,6 +51,9 @@
       <text>分享</text>
     </view-->
 
+<!--view class="footer" bindtap="searchWeb">
+      <text>查找</text>
+</view--> 
 
 </view>
 

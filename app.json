@@ -8,7 +8,9 @@
     "pages/picture/picture",
     "pages/index/people",
     "pages/calendar/map",
-    "pages/picture/detail"
+    "pages/picture/detail",
+    "pages/index/search",
+    "pages/weibo/weibo"
   ],
   "window": {
     "backgroundTextStyle": "light",

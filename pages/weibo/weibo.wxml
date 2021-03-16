@@ -1,0 +1,23 @@
+<!--pages/weibo/weibo.wxml-->
+<view wx:for="{{mblogList}}" wx:key="id">
+    <view class="margin-top bg-white padding-left padding-right">
+          <view class="margin-top-xs flex flex-wrap">
+              <view class="margin-top-xs">
+                <image style="width: 50px; height:50px; border-radius:25px" mode="aspectFill" src= "{{item.avatar}}"></image>
+              </view>
+              <view class="margin-top-xs padding-left padding-right">
+                <view><text class="text-df text-bold">{{item.user_name}}</text></view>
+                <view><text class="text-sm text-grey">{{item.created_at}}</text></view>
+              </view>
+          </view>
+          <view class="margin-top-xs">
+              <text class="text-df">{{item.text}}</text>
+          </view>
+          <view class="margin-top-xs flex flex-wrap">
+              <view wx:for="{{item.picList}}" wx:key="id">
+                 <image style="width: 225rpx; height:225rpx; padding:0 1rpx" src= "{{item.url}}" mode="aspectFill" data-idx="{{idx}}" />
+              </view>
+          </view>
+    </view>
+</view>
+

@@ -85,6 +85,7 @@ App({
     photoPath: 'api/photo',
     orchidPath:'api/orchid',
     userInfoPath:'api/users',
+    weiboPath:'api/web/weibo',
 
     allUserInfo: [],
     myUserInfo:'',
