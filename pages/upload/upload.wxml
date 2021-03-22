@@ -41,7 +41,11 @@
               </view--> 
             <!--/view-->
           </view>
-          
+          <view wx:if="{{showProgress}}" class ="padding">
+              <view class="progress-box">
+                <progress percent="{{progress}}" show-info stroke-width="6"/>
+              </view>
+          </view>
           <view class='padding'> 
               <button type= "primary" loading="{{loading}}" formType="submit">上传</button>
           </view>

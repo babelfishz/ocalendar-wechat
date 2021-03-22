@@ -18,6 +18,7 @@ Page({
     showInputName: false,
     inputValue: '',
     accuracy: 0,
+    showProgress: false,    
     isUploadError: false,
     showUploadStatus: false,
     success: true,
@@ -107,6 +108,10 @@ Page({
     var i = 0;
     var length = imgArr.length;
     if (length){
+      that.setData({
+        showProgress:true,
+        progress:0,
+      })
       that.uploadFiles(imgArr, inputName, successCount,failCount,i,length)
     }
     else{
@@ -133,6 +138,10 @@ Page({
         success: function(res){
           if(res.statusCode == 200){
             successCount++;
+            let progress = Math.round(successCount/length*100)
+            that.setData({
+              progress:progress,
+            })
           }else{
             that.setData({ isUploadError: true });
             failCount++;
@@ -149,6 +158,7 @@ Page({
           i++;
           if (i == length) {
             that.setData({
+              showProgress: false,
               showChooseImageArea:false, 
               showUploadStatus: true,
               success: that.data.isUploadError?false:true,
@@ -156,7 +166,8 @@ Page({
           } else {  //递归调用uploadMultiFile函数
             if (that.data.isUploadError) {
               that.setData({
-                showChooseImageArea: false,  
+                showChooseImageArea: false, 
+                showProgress: false, 
                 showUploadStatus: true,
                 success: false,
                 loading: false,
